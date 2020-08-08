@@ -1,0 +1,82 @@
+:root{
+    font-size: 120%;
+    --width-card: 140px;
+    --color-background: #282A36;
+    --color-foreground: #F8F8F2;
+    --color-selection: #44475A;
+    --color-comment: #6272A4;
+    --color-red: #FF5555;
+    --color-cyan: #8BE9FD;
+    --color-green: #50FA7B;
+    --color-purple: #BD93F9;
+    --color-yellow: #F1FA8C;
+    --color-orange: #FFB86C;
+    --color-pink: #FF79C6;
+}
+
+*,
+*::after,
+*::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body, #root{
+    min-height: 100vh;
+}
+
+body,input,textarea{
+    font-family: 'Nova Mono', Georgia, 'Times New Roman', Times, serif;
+}
+
+input,textarea{
+    font-size: inherit;
+    border: 0;
+    border-radius: 1px;
+}
+
+body{
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+}
+
+#root{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+a{
+    text-decoration: none;
+    color: var(--color-orange);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button,
+.button{
+    font-family: 'Press Start 2P', Georgia, 'Times New Roman', Times, serif;
+}
+
+button,
+.button{
+    cursor: pointer;
+    color: var(--color-foreground);
+    background-color: var(--color-selection);
+    border: 0;
+    border-radius: 1px;
+    padding: .8rem 1rem;
+    font-size: .9rem;
+    text-transform: uppercase;
+    margin: 0 .1rem;
+}
+
+.button{
+    display: inline-block;
+}

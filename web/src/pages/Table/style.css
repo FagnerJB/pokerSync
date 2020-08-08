@@ -1,0 +1,84 @@
+.button{
+    width: var(--width-card);
+    padding: .1rem!important;
+}
+.swapButtons input[name="swaps"]:checked + .button{
+    background-color: var(--color-comment);
+}
+
+.swapButtons input[name="swaps"]:checked + .button i::before{
+    content:  "\f2f9";
+}
+
+.gameButtons{
+    margin-top: .4rem;
+}
+
+.selected img{
+    filter: sepia(100%);
+    -webkit-filter: sepia(100%);
+}
+
+.optionsPanel{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    max-width: 17rem;
+    padding: 1rem;
+    background-color: var(--color-selection);
+}
+
+.optionsPanel h6{
+    margin: 1rem 0 .1rem;
+}
+
+.optionsPanel input,
+.swapButtons input{
+    display: none;
+}
+
+.optionsPanel label{
+    cursor: pointer;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin: .15rem .2rem;
+    padding: 0 .4rem;
+    border-radius: 2px;
+    border: 1px solid var(--color-comment);
+    background-color: var(--color-selection);
+}
+
+.optionsPanel label i{
+    font-size: 80%;
+    margin-right: .2rem;
+}
+
+
+.optionsPanel input[name="ranks"]:checked + label,
+.optionsPanel input[name="suits"]:checked + label{
+    color: var(--color-red);
+    border-color: var(--color-red);
+}
+
+.optionsPanel input[name="ranks"]:checked + label i::before,
+.optionsPanel input[name="suits"]:checked + label i::before{
+    content: "\f00d";
+}
+
+.optionsPanel input[name="lang"]:checked + label,
+.optionsPanel input[name="jokers"]:checked + label,
+.optionsPanel input[name="decks"]:checked + label,
+.optionsPanel input[name="langs"]:checked + label{
+    color: var(--color-green);
+    border-color: var(--color-green)
+}
+
+.optionsPanel input[name="lang"]:checked + label i::before,
+.optionsPanel input[name="jokers"]:checked + label i::before,
+.optionsPanel input[name="decks"]:checked + label i::before,
+.optionsPanel input[name="langs"]:checked + label i::before{
+    content: "\f192"
+}

@@ -1,0 +1,33 @@
+.enter{
+    width: 100%;
+    max-width: 688px;
+}
+
+label span{
+    font-size: 80%;
+    float: right;
+    color: var(--color-comment);
+}
+
+.enter input{
+    width: 100%;
+    margin: .2rem 0 .5rem;
+    padding: .2rem .5rem;
+}
+
+.subtitle{
+    font-size: 1.3rem;
+    margin: .2rem 0 1rem;
+    color: var(--color-comment);
+}
+
+.enter-last-line{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+.enter-submit{
+    align-self: flex-end;
+    justify-self: flex-end;
+    margin-bottom: .5rem;
+}
