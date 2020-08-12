@@ -1,0 +1,86 @@
+.socialPanel{
+    position: fixed;
+    top: 0;
+    right: -16.9rem;
+    display: grid;
+    grid-template-rows: 3.2rem 1fr;
+    height: 100vh;
+    width: 100%;
+    max-width: 16.9rem;
+    padding: 1rem .8rem;
+    background-color: var(--color-selection);
+    transition: .5s;
+}
+
+.socialPanel.opened{
+    right: 0;
+}
+
+.socialPanel .closeBtn{
+    position: fixed;
+    top: 4rem;
+    right: 0rem;
+    transition: .5s;
+}
+
+.socialPanel.opened .closeBtn{
+    right: 16.8rem;
+}
+
+.socialPanel header{
+    border-bottom: 1px solid var(--color-comment);
+}
+
+.socialPanel .gravatar{
+    float: right;
+}
+
+.socialPanel .logs{
+    font-size: 0.8rem;
+    padding-top: .2rem;
+    align-self: flex-end;
+}
+
+
+.socialPanel .logs ul{
+    list-style: none;
+}
+
+.socialPanel .logs ul li{
+    padding: .4rem 0;
+}
+
+.socialPanel .logs ul li:not(:last-child){
+    border-bottom: 1px solid rgba(248, 248, 242, .5);
+}
+
+.socialPanel .logs p{
+    width: calc( 16.9rem - .8rem * 2 - .3rem * 2 );
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.socialPanel .logs .info-box{
+    margin-top: .2rem;
+    padding: .2rem .3rem;
+    background-color: #5b5f79;
+    border-radius: .15rem;
+}
+
+.socialPanel .logs li:not(:last-child) .info-box{
+    display: none;
+}
+
+.socialPanel h4{
+    margin-bottom: .3rem;
+}
+
+@media all and (min-width: 1250px){
+    .socialPanel{
+        right: 0;
+    }
+    .socialPanel .closeBtn{
+        display: none;
+    }
+}

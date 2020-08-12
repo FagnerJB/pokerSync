@@ -1,5 +1,5 @@
 :root{
-    font-size: 120%;
+    font-size: 100%;
     --width-card: 140px;
     --color-background: #282A36;
     --color-foreground: #F8F8F2;
@@ -10,7 +10,7 @@
     --color-green: #50FA7B;
     --color-purple: #BD93F9;
     --color-yellow: #F1FA8C;
-    --color-orange: #FFB86C;
+    --color-orange: #ffa23e;
     --color-pink: #FF79C6;
 }
 
@@ -66,17 +66,42 @@ button,
 
 button,
 .button{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     color: var(--color-foreground);
-    background-color: var(--color-selection);
+    background-color: var(--color-orange);
     border: 0;
-    border-radius: 1px;
+    border-radius: .1rem;
     padding: .8rem 1rem;
-    font-size: .9rem;
+    font-size: .8rem;
     text-transform: uppercase;
     margin: 0 .1rem;
 }
 
-.button{
-    display: inline-block;
+button i,
+.button i{
+    display: none;
+    margin-right: .3rem;
+}
+
+button:disabled,
+.button:disabled{
+    background-color: var(--color-selection);
+}
+
+@media all and (min-width: 1360px){
+    :root{
+        font-size: 120%;
+    }
+}
+
+
+@media all and (min-width: 430px){
+
+    button i,
+    .button i{
+        display: inline-block;
+    }
 }

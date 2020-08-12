@@ -1,0 +1,89 @@
+.optionsPanel{
+    position: fixed;
+    top: 0;
+    left: -16.9rem;
+    height: 100vh;
+    width: 100%;
+    max-width: 16.9rem;
+    padding: 1rem;
+    background-color: var(--color-selection);
+    transition: .5s;
+}
+
+.optionsPanel.opened{
+    left: 0;
+}
+
+.optionsPanel .closeBtn{
+    position: fixed;
+    top: 1rem;
+    left: 0rem;
+    transition: .5s;
+}
+
+.optionsPanel.opened .closeBtn{
+    left: 16.8rem;
+}
+
+.optionsPanel h6{
+    margin: 1rem 0 .2rem;
+}
+
+.optionsPanel input,
+.swapButtons input{
+    display: none;
+}
+
+.optionsPanel label{
+    cursor: pointer;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin: .15rem .2rem;
+    padding: 0 .4rem;
+    border-radius: 2px;
+    border: 1px solid var(--color-comment);
+    background-color: var(--color-selection);
+}
+
+.optionsPanel label i{
+    font-size: 80%;
+    margin-right: .2rem;
+}
+
+.optionsPanel input[name="ranks"]:checked + label,
+.optionsPanel input[name="suits"]:checked + label{
+    color: var(--color-red);
+    border-color: var(--color-red);
+}
+
+.optionsPanel input[name="ranks"]:checked + label i::before,
+.optionsPanel input[name="suits"]:checked + label i::before{
+    content: "\f00d";
+}
+
+.optionsPanel input[name="lang"]:checked + label,
+.optionsPanel input[name="numbers"]:checked + label,
+.optionsPanel input[name="jokers"]:checked + label,
+.optionsPanel input[name="decks"]:checked + label,
+.optionsPanel input[name="langs"]:checked + label{
+    color: var(--color-green);
+    border-color: var(--color-green)
+}
+
+.optionsPanel input[name="lang"]:checked + label i::before,
+.optionsPanel input[name="numbers"]:checked + label i::before,
+.optionsPanel input[name="jokers"]:checked + label i::before,
+.optionsPanel input[name="decks"]:checked + label i::before,
+.optionsPanel input[name="langs"]:checked + label i::before{
+    content: "\f192"
+}
+
+@media all and (min-width: 1250px){
+    .optionsPanel{
+        left: 0;
+    }
+    .optionsPanel .closeBtn{
+        display: none;
+    }
+}

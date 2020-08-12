@@ -6,20 +6,20 @@ import './style.css'
 function Enter() {
 
     const history = useHistory()
-    const [ name, setName ] = useState('')
-    const [ email, setEmail ] = useState('')
-    const [ room, setRoom ] = useState('')
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [room, setRoom] = useState('')
 
-    useEffect( () => {
+    useEffect(() => {
 
         const local = localStorage.getItem('pokerSync')
-        if( local ){
+        if (local) {
             const localParsed = JSON.parse(local)
 
-            if(localParsed.name){
+            if (localParsed.name) {
                 setName(localParsed.name)
             }
-            if(localParsed.email){
+            if (localParsed.email) {
                 setEmail(localParsed.email)
             }
 
@@ -27,7 +27,7 @@ function Enter() {
 
     }, [])
 
-    function handleSubmit( e : FormEvent ) : void{
+    function handleSubmit(e: FormEvent): void {
 
         e.preventDefault()
 
@@ -48,25 +48,25 @@ function Enter() {
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="name">Nome para identificação</label>
-                    <input id="name" type="text" name="name" placeholder="Nome" required value={name} onChange={ (e) => setName(e.target.value) } />
+                    <input id="name" type="text" name="name" placeholder="Nome" required value={name} onChange={(e) => setName(e.target.value)} />
                 </div>
 
                 <div>
                     <label htmlFor="email">E-mail com Gravatar <span>(opcional)</span></label>
-                    <input id="email" type="email" name="email" placeholder="E-mail" value={email} onChange={ (e) => setEmail(e.target.value) } />
+                    <input id="email" type="email" name="email" placeholder="E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
 
                 <div className="enter-last-line">
                     <div>
                         <label htmlFor="room">Número da Sala <span>(deixe vazio para criar sala)</span></label>
-                        <input id="room" type="number" min="1" max="99" step="1" name="room" placeholder="Número" value={room} onChange={ (e) => setRoom(e.target.value) } />
+                        <input id="room" type="number" min="10" max="99" step="1" name="room" placeholder="Número" value={room} onChange={(e) => setRoom(e.target.value)} />
                     </div>
                     <div className="enter-submit">
                         <button type="submit">Entrar</button>
                     </div>
                 </div>
 
-                
+
             </form>
         </div>
     );
