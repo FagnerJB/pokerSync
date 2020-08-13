@@ -45,7 +45,12 @@ function Options() {
 
     return (
         <div className={"optionsPanel" + (toggle === "options" ? " opened" : "")}>
-            <button type="button" className="closeBtn" onClick={() => setOption("toggle", toggle === "options" ? "none" : "options")}><i className="fas fa-bars"></i></button>
+            <header>
+                <button type="button" className="closeBtn" onClick={() => setOption("toggle", toggle === "options" ? "none" : "options")}><i className="fas fa-bars"></i></button>
+                <h4>Configurações</h4>
+                <p><a href="https://fagnerjb.com/logs/europair" target="_blank" rel="noopener noreferrer">Como usar</a> </p>
+                <button className="resetBtn" type="reset" onClick={handleReset}>Limpar</button>
+            </header>
             <form>
                 <div>
                     <h6>Número de cartas</h6>
@@ -111,7 +116,6 @@ function Options() {
                         </span>
                     )}
                 </div>
-                <button type="reset" onClick={handleReset}>Limpar</button>
             </form>
             <div>
                 <h6>Baralho usado</h6>

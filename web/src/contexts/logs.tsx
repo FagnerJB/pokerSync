@@ -6,6 +6,7 @@ export interface ILogsItem {
         email?: string,
         room: number | null
     },
+    id: string,
     name: string,
     hand: string[],
     swap: number,

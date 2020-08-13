@@ -20,7 +20,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
 
 html, body, #root{
     min-height: 100vh;
@@ -69,7 +73,6 @@ button,
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     color: var(--color-foreground);
     background-color: var(--color-orange);
     border: 0;
@@ -78,6 +81,11 @@ button,
     font-size: .8rem;
     text-transform: uppercase;
     margin: 0 .1rem;
+}
+
+button:not(:disabled),
+.button:not(:disabled){
+    cursor: pointer;
 }
 
 button i,

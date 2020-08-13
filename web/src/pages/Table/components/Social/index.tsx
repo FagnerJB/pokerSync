@@ -32,17 +32,17 @@ function Social() {
 
     }, [])
 
-    function renderLog(obj: ILogsItem, index: number) {
+    function renderLog(obj: ILogsItem) {
 
         const swaps = "troca" + (obj.swap === 1 ? "" : "s")
-        const jokers = `Adicionados ${obj.jokers} coringa` + (obj.jokers === 1 ? "" : "s")
-        const suits = `Removidos ${obj.suits.length} naipe` + (obj.suits.length === 1 ? "" : "s") + `: ${obj.suits.map((suit) => renderFace(suit)).join(',')}`
-        const ranks = `Removidos ${obj.ranks.length} valor` + (obj.ranks.length === 1 ? "" : "es") + `: ${obj.ranks.map((rank) => renderFace(rank)).join(',')}`
+        const jokers = `Mais ${obj.jokers} coringa` + (obj.jokers === 1 ? "" : "s")
+        const suits = `Menos ${obj.suits.length} naipe` + (obj.suits.length === 1 ? "" : "s") + `: ${obj.suits.map((suit) => renderFace(suit)).join(',')}`
+        const ranks = `Menos ${obj.ranks.length} valor` + (obj.ranks.length === 1 ? "" : "es") + `: ${obj.ranks.sort().map((rank) => renderFace(rank)).join(',')}`
 
         return (
-            <li key={index}>
+            <li key={obj.id}>
                 <p>
-                    <strong>{obj.user.name}</strong> fez <strong>{obj.name}</strong> <i className="fas fa-info-circle"></i>
+                    <button type="button" className="info-button"><i className="fas fa-info-circle"></i></button><strong>{obj.user.name}</strong> fez <strong>{obj.name}</strong>
                 </p>
                 <div className="info-box">
                     <p>{obj.hand.map((face) => renderFace(face)).join(',')} com {obj.swap} {swaps}</p>
@@ -61,13 +61,11 @@ function Social() {
                 <button type="button" className="closeBtn" onClick={() => setOption("toggle", toggle === "social" ? "none" : "social")}><i className="fas fa-user-friends"></i></button>
                 {user.email && <Gravatar email={user.email} alt={`Imagem de ${user.name}`} className="gravatar" />}
                 <h4>{user.name}</h4>
-                <p>Sala: {user.room} <i className="far fa-copy"></i></p>
+                <p className="roomNum">Sala: {user.room} <i className="far fa-copy"></i></p>
                 <p className="backBtn"><Link to="/">Voltar</Link></p>
             </header>
             <div className="logs">
-                <ul>
-                    {logs.length > 0 ? logs.map((item, i) => renderLog(item, i)) : "As jogadas aparecerão aqui."}
-                </ul>
+                {logs.length > 0 ? <ul>{logs.map((item) => renderLog(item))}</ul> : "As jogadas aparecerão aqui."}
             </div>
         </div>
     )

@@ -24,6 +24,7 @@ function Table() {
     const [swap, setSwap] = useState<string[]>([])
     const [swaps, setSwaps] = useState(0)
     const [handName, setHandName] = useState("")
+
     const [allowNew, setAllowNew] = useState(true)
     const [allowSwap, setAllowSwap] = useState(false)
     const [allowStop, setAllowStop] = useState(false)
@@ -48,18 +49,33 @@ function Table() {
 
     }, [])
 
+    useEffect(() => {
+
+        if (swaps >= 3 || hand.length === 0 || swap.length === 0)
+            setAllowSwap(false)
+        else
+            setAllowSwap(true)
+
+    }, [swaps, hand, swap])
+
+    useEffect(() => {
+
+        if (52 + (hmJokers - ((rmSuits.length * 13) + (rmRanks.length * (4 - rmSuits.length)))) < hmCards)
+            setAllowNew(false)
+        else
+            setAllowNew(true)
+
+    }, [hmJokers, rmSuits, rmRanks, hmCards])
+
+
     function handleNewHand(e: FormEvent): void {
 
         e.preventDefault()
 
-        if (52 + (hmJokers - ((rmSuits.length * 13) + (rmRanks.length * (4 - rmSuits.length)))) < hmCards) {
-            alert(`Não é possível realizar uma nova jogada. O baralho não tem menos de ${hmCards} cartas.`)
-            return
-        }
-
         setSwap([])
         setHand([])
         setSwaps(0)
+        setAllowNew(false)
 
         api.post("/deal", {
             number: hmCards,
@@ -70,10 +86,22 @@ function Table() {
 
             localStorage.setItem('pokerSync_dealID', res.data.id)
 
+            setAllowStop(true)
             setHand(res.data.hand)
             setHandName(renderName(res.data.text, lang))
 
         })
+
+    }
+
+    function handleSelect(face: string): void {
+
+        if (!allowStop) return
+
+        if (swap.includes(face))
+            setSwap(swap.filter((f) => f !== face))
+        else
+            setSwap([...swap, face])
 
     }
 
@@ -83,10 +111,7 @@ function Table() {
 
         const id = localStorage.getItem('pokerSync_dealID')
 
-        if (!id || swaps >= 3 || hand.length === 0 || swap.length === 0) {
-            alert("Não é possível trocar.")
-            return
-        }
+        if (!id) return
 
         setSwap([])
         setHand([])
@@ -116,8 +141,13 @@ function Table() {
 
         if (!id || !localName || hand.length === 0) return
 
+        setAllowNew(true)
+        setAllowStop(false)
+        setSwap([])
+
         sendLog({
             user: JSON.parse(localName),
+            id: id,
             name: handName,
             hand: hand,
             swap: swaps,
@@ -138,7 +168,7 @@ function Table() {
 
                     return (
                         <div key={"card-" + i} className={cardClasses(deck, swap.includes(face))}
-                            onClick={() => swap.includes(face) ? setSwap(swap.filter((f) => f !== face)) : setSwap([...swap, face])}
+                            onClick={() => handleSelect(face)}
                         >
                             <Card face={face} src={cardImage(deck, face)} back={cardImage(deck, "back")} />
                         </div>
@@ -151,7 +181,7 @@ function Table() {
                     <span key={"swap-" + i}>
                         <input id={"swap-" + i} type="checkbox" name="swaps" value={face}
                             checked={swap.includes(face)}
-                            onChange={() => swap.includes(face) ? setSwap(swap.filter((f) => f !== face)) : setSwap([...swap, face])}
+                            onChange={() => handleSelect(face)}
                         />
                         <label htmlFor={"swap-" + i}
                             tabIndex={0}
