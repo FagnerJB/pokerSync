@@ -31,8 +31,11 @@ function Enter() {
 
         e.preventDefault()
 
+        localStorage.removeItem('pokerSync')
         localStorage.setItem('pokerSync', JSON.stringify({
-            name, email, room
+            name: name.trim(),
+            email: email.trim(),
+            room: room.trim()
         }))
 
         history.push('/table')
@@ -58,11 +61,11 @@ function Enter() {
 
                 <div className="enter-last-line">
                     <div>
-                        <label htmlFor="room">Número da Sala <span>(deixe vazio para criar sala)</span></label>
-                        <input id="room" type="number" min="10" max="99" step="1" name="room" placeholder="Número" value={room} onChange={(e) => setRoom(e.target.value)} />
+                        <label htmlFor="room">Código da sala <span>(deixe vazio para criar sala)</span></label>
+                        <input id="room" type="type" name="room" pattern="[a-f0-9]{7}" placeholder="Código" value={room} onChange={(e) => setRoom(e.target.value)} />
                     </div>
                     <div className="enter-submit">
-                        <button type="submit">Entrar</button>
+                        <button type="submit"><i className="fas fa-sign-in-alt"></i> Entrar</button>
                     </div>
                 </div>
 

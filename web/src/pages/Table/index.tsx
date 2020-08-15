@@ -1,29 +1,35 @@
 import React, { useState, useEffect, useContext, FormEvent } from 'react'
+import socketIO from 'socket.io-client'
 import { useHistory } from "react-router-dom"
 
-import Card from './components/Card'
+import Card from '../../components/Card'
 import Options from './components/Options'
 import Social from './components/Social'
-import { cardClasses, cardImage } from './functions'
+import { cardClasses, cardImage } from '../../utils/cardFunctions'
 
 import api from '../../services/api';
 import { renderName } from '../../localization'
-import TableContext from '../../contexts/table';
-import LogsContext from '../../contexts/logs'
+import TableContext from '../../contexts/table'
+
+import { ILogsItem } from './interfaces'
 
 import './style.css'
+
+const io = socketIO('http://localhost:3333')
 
 function Table() {
 
     const history = useHistory()
 
     const { hmCards, hmJokers, rmSuits, rmRanks, deck, lang, setOption } = useContext(TableContext)
-    const { sendLog } = useContext(LogsContext)
+
+    const [room, setRoom] = useState('')
+    const [logs, setLogs] = useState<ILogsItem[]>([])
 
     const [hand, setHand] = useState<string[]>([])
     const [swap, setSwap] = useState<string[]>([])
     const [swaps, setSwaps] = useState(0)
-    const [handName, setHandName] = useState("")
+    const [handName, setHandName] = useState("Bem-vinde")
 
     const [allowNew, setAllowNew] = useState(true)
     const [allowSwap, setAllowSwap] = useState(false)
@@ -39,15 +45,34 @@ function Table() {
 
         } else {
 
+            const localUser = JSON.parse(localName)
             const localDeck = localStorage.getItem("pokerSync_deck")
             const localLang = localStorage.getItem("pokerSync_lang")
 
             if (localDeck) setOption('deck', localDeck)
             if (localLang) setOption('lang', localLang)
 
+            io.emit('giveRoom', localUser.room)
+
+            io.on('setRoom', (room: string) => {
+                const newLocal = JSON.stringify({ ...localUser, room })
+                localStorage.setItem("pokerSync", newLocal)
+                setRoom(room)
+            })
+
         }
 
+        // eslint-disable-next-line
     }, [])
+
+
+    useEffect(() => {
+
+        io.on('sendPlay', (data: ILogsItem) => {
+            setLogs([...logs, data])
+        })
+
+    }, [logs])
 
     useEffect(() => {
 
@@ -75,6 +100,7 @@ function Table() {
         setSwap([])
         setHand([])
         setSwaps(0)
+        setHandName('Embaralhando...')
         setAllowNew(false)
 
         api.post("/deal", {
@@ -88,7 +114,9 @@ function Table() {
 
             setAllowStop(true)
             setHand(res.data.hand)
-            setHandName(renderName(res.data.text, lang))
+            setTimeout(() => {
+                setHandName(renderName(res.data.text, lang))
+            }, 900)
 
         })
 
@@ -117,7 +145,7 @@ function Table() {
         setHand([])
         setHandName('Trocando...')
 
-        api.post('/draw/' + id, {
+        api.post(`/draw/${id}`, {
             hand: hand.join(","),
             swap: swap.join(",")
         }).then(res => {
@@ -126,13 +154,15 @@ function Table() {
 
             setSwaps(swaps + 1)
             setHand(res.data.hand)
-            setHandName(renderName(res.data.text, lang))
+            setTimeout(() => {
+                setHandName(renderName(res.data.text, lang))
+            }, 900)
 
         })
 
     }
 
-    function handleStop(e: FormEvent) {
+    function handleStop(e: FormEvent): void {
 
         e.preventDefault()
 
@@ -145,8 +175,13 @@ function Table() {
         setAllowStop(false)
         setSwap([])
 
-        sendLog({
-            user: JSON.parse(localName),
+        const localUser = JSON.parse(localName)
+
+        const playObj = ({
+            user: {
+                name: localUser.name,
+                email: localUser.email
+            },
             id: id,
             name: handName,
             hand: hand,
@@ -156,34 +191,38 @@ function Table() {
             ranks: rmRanks
         })
 
+        io.emit('newPlay', playObj)
+
     }
 
     return (
         <>
+            <Options />
+            <Social logs={logs} room={room} />
             <header className="hand-name">
-                <h2>{handName || "Bem-vinde"}</h2>
+                <h2>{handName}</h2>
             </header>
             <div className="table">
                 {hand.length > 0 ? hand.map((face, i) => {
 
                     return (
-                        <div key={"card-" + i} className={cardClasses(deck, swap.includes(face))}
+                        <div key={`card-${i}`} className={cardClasses(deck, swap.includes(face))}
                             onClick={() => handleSelect(face)}
                         >
                             <Card face={face} src={cardImage(deck, face)} back={cardImage(deck, "back")} />
                         </div>
                     )
 
-                }) : Array.from(Array(hmCards).keys()).map((i) => <div key={"empty-" + i} className={"card empty " + deck}></div>)}
+                }) : Array.from(Array(hmCards).keys()).map((i) => <div key={`empty-${i}`} className={`card empty ${deck}`}></div>)}
             </div>
             <div className="swapButtons">
                 {hand.map((face, i) =>
-                    <span key={"swap-" + i}>
-                        <input id={"swap-" + i} type="checkbox" name="swaps" value={face}
+                    <span key={`swap-${i}`}>
+                        <input id={`swap-${i}`} type="checkbox" name="swaps" value={face}
                             checked={swap.includes(face)}
                             onChange={() => handleSelect(face)}
                         />
-                        <label htmlFor={"swap-" + i}
+                        <label htmlFor={`swap-${i}`}
                             tabIndex={0}
                             role="button"
                             aria-pressed={swap.includes(face)}
@@ -205,8 +244,8 @@ function Table() {
                     <i className="fas fa-stop" /> Parar
                 </button>
             </div>
-            {hand.length > 0 && (
-                <div className={"swapsCount level-" + swaps}>
+            {(!allowNew || hand.length > 0) && (
+                <div className={`swapsCount level-${swaps}`}>
                     Trocas
                     {Array.from(Array(3).keys()).map((i) => {
                         if (i >= swaps) {
@@ -217,8 +256,6 @@ function Table() {
                     })}
                 </div>
             )}
-            <Options />
-            <Social />
         </>
     );
 }

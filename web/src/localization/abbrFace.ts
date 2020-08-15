@@ -15,7 +15,8 @@ function abbrFace(face: string): string {
         let suit = card[2] && rank !== "O" ? card[2] : null
 
         if (rank) {
-            rank = rank.replace("T", "10").replace("O", "C" + emoji.get('black_joker'))
+            const joker = emoji.get('black_joker')
+            rank = rank.replace("T", "10").replace("O", `C${joker}`)
             if (!suit) return rank
         }
 

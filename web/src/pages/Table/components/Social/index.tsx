@@ -2,35 +2,63 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 
 import TableContext from '../../../../contexts/table'
-import LogsContext, { ILogsItem } from '../../../../contexts/logs'
 
 import { renderFace } from '../../../../localization'
+
+import { ILogsItem } from '../../interfaces'
 
 import './style.css'
 
 const Gravatar = require('react-gravatar')
 
 interface IUserState {
-    name: string,
-    email?: string,
-    room?: number | null
+    name: string
+    email?: string
 }
 
-function Social() {
+interface ISocialProps {
+    logs: ILogsItem[]
+    room: string
+}
+
+const Social: React.FC<ISocialProps> = (props) => {
+
+    const { logs, room } = props
 
     const [user, setUser] = useState<IUserState>({} as IUserState)
+    const [seen, setSeen] = useState(logs.length)
+    const [badge, setBadge] = useState(0)
 
     const { toggle, setOption } = useContext(TableContext)
-    const { logs } = useContext(LogsContext)
 
     useEffect(() => {
 
         const localName = localStorage.getItem("pokerSync")
 
-        if (localName)
-            setUser(JSON.parse(localName))
+        if (localName) {
+
+            const localUser = JSON.parse(localName)
+
+            setUser({
+                name: localUser.name,
+                email: localUser.email
+            })
+
+        }
 
     }, [])
+
+    useEffect(() => {
+
+        if (toggle !== "social") {
+            setBadge(logs.length - seen)
+        } else {
+            setBadge(0)
+            setSeen(logs.length)
+        }
+
+        // eslint-disable-next-line
+    }, [logs, toggle])
 
     function renderLog(obj: ILogsItem) {
 
@@ -58,10 +86,12 @@ function Social() {
     return (
         <div className={"socialPanel" + (toggle === "social" ? " opened" : "")}>
             <header>
-                <button type="button" className="closeBtn" onClick={() => setOption("toggle", toggle === "social" ? "none" : "social")}><i className="fas fa-user-friends"></i></button>
+                <button type="button" className="closeBtn" data-badge={badge}
+                    onClick={() => setOption("toggle", toggle === "social" ? "none" : "social")}
+                ><i className="fas fa-user-friends"></i></button>
                 {user.email && <Gravatar email={user.email} alt={`Imagem de ${user.name}`} className="gravatar" />}
                 <h4>{user.name}</h4>
-                <p className="roomNum">Sala: {user.room} <i className="far fa-copy"></i></p>
+                <p className="roomNum">Sala: {room} <i className="far fa-copy"></i></p>
                 <p className="backBtn"><Link to="/">Voltar</Link></p>
             </header>
             <div className="logs">

@@ -82,7 +82,7 @@ function fullCard(rank: string, suit: string = "") {
 
     for (let item of Object.entries(ranks)) {
 
-        if (rank.indexOf(item[0]) >= 0)
+        if (rank.includes(item[0]))
             result += rank.replace(new RegExp(item[0], "g"), item[1].pt)
 
     }
@@ -91,8 +91,10 @@ function fullCard(rank: string, suit: string = "") {
 
         for (let item of Object.entries(suits)) {
 
-            if (suit.includes(item[0]))
-                result += " de " + suit.replace(new RegExp(item[0], "g"), item[1].pt)
+            if (suit.includes(item[0])) {
+                const suitName = suit.replace(new RegExp(item[0], "g"), item[1].pt)
+                result += ` de ${suitName}`
+            }
 
         }
 
@@ -125,9 +127,10 @@ function fullName(text: { name: string, desc: string }, lang: string) {
     }).join('')
 
 
-    if (!card) {
+    if (!card && 'High Card' !== text.name) {
+        console.log(text.desc, '|', text.name)
 
-        const onlyRanks = text.desc.matchAll(/(A|K|Q|J|10|9|8|7|6|5|4|3|2)'s/g)
+        const onlyRanks = text.desc.matchAll(/(A|K|Q|J|10|9|8|7|6|5|4|3|2)('s| High)/g)
         card = Array.from(onlyRanks, (match) => {
             return fullCard(match[1])
         }).join(' e ')
@@ -136,21 +139,12 @@ function fullName(text: { name: string, desc: string }, lang: string) {
 
     if (!card) {
 
-        const straight = text.desc.matchAll(/(A|K|Q|J|10|9|8|7|6|5|4|3|2) High/g)
-        card = Array.from(straight, (match) => {
-            return fullCard(match[1])
-        }).join('')
-
-    }
-
-    if (!card) {
-
         card = text.desc.replace(/'s|High|Flush/g, "").trim()
-        return card === 'Royal' ? card + " " + name : name + ' é ' + fullCard(card)
+        return card === 'Royal' ? `${card} ${name}` : `${name} é ${fullCard(card)}`
 
     }
 
-    return name + " de " + card
+    return `${name} de ${card}`
 
 }
 

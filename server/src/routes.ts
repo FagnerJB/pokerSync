@@ -2,8 +2,29 @@ import express from 'express'
 
 const routes = express.Router()
 
-import { makeDeal, makeDraw } from './utils/Dealer'
+import { getName, makeDeal, makeDraw } from './utils/Dealer'
 import Deals from './database/models/Deals'
+
+routes.get('/deal/:id', async (req, res) => {
+
+    const { id } = req.params
+
+    const getID = await Deals.findById(id)
+
+    if (getID) {
+
+        const name = getName(getID.hand);
+
+        return res.json({
+            hand: getID.hand,
+            text: name
+        });
+
+    } else {
+
+    }
+
+})
 
 routes.post('/deal', async (req, res) => {
 
@@ -26,7 +47,7 @@ routes.post('/deal', async (req, res) => {
 
 routes.post('/draw/:id', async (req, res) => {
 
-    const id = req.params.id
+    const { id } = req.params
     const { hand, swap } = req.body
 
     const getID = await Deals.findById(id)

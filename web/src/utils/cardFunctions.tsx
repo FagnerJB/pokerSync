@@ -1,4 +1,4 @@
-export function cardClasses(deck: string, selected: boolean) {
+export function cardClasses(deck: string, selected = false) {
 
     let classes = ["card", deck]
 
@@ -29,6 +29,6 @@ export function cardImage(deck: string, face: string) {
     if ("1" === face.slice(0, 1))
         face = "A" + face.slice(1)
 
-    return base_url + deck + "/" + face + ".png"
+    return `${base_url}${deck}/${face}.png`
 
 }

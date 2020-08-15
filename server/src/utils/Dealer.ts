@@ -21,6 +21,18 @@ interface PokerCard {
     wildValue: string
 }
 
+export function getName(hand: string[]) {
+
+    const solved = Hand.solve(hand, standardWithJoker);
+
+    return {
+        name: solved.name,
+        desc: solved.descr
+    }
+
+}
+
+
 export function makeDeal(howMany: number, jokers: number, remSuits: string, remRanks: string) {
 
     let allCards = []
@@ -41,7 +53,7 @@ export function makeDeal(howMany: number, jokers: number, remSuits: string, remR
 
     for (let j = 0; j < jokers; j++) {
 
-        allCards.push("O" + suits[j])
+        allCards.push(`O${suits[j]}`)
 
     }
 
@@ -79,7 +91,7 @@ export function makeDraw(db: { hand: string[], deck: string[] }, hand: string[],
 
     })
 
-    const solved = Hand.solve(hand)
+    const solved = Hand.solve(hand, standardWithJoker)
 
     return {
         deck: deck,

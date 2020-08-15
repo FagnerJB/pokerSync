@@ -1,6 +1,4 @@
 :root{
-    font-size: 100%;
-    --width-card: 140px;
     --color-background: #282A36;
     --color-foreground: #F8F8F2;
     --color-selection: #44475A;
@@ -12,6 +10,10 @@
     --color-yellow: #F1FA8C;
     --color-orange: #ffa23e;
     --color-pink: #FF79C6;
+    --font-body: 'Nova Mono', Georgia, 'Times New Roman', Times, serif;
+    --font-title: 'Press Start 2P', Georgia, 'Times New Roman', Times, serif;
+    --width-card: 140px;
+    font-size: 100%;
 }
 
 *,
@@ -31,7 +33,7 @@ html, body, #root{
 }
 
 body,input,textarea{
-    font-family: 'Nova Mono', Georgia, 'Times New Roman', Times, serif;
+    font-family: var(--font-body)
 }
 
 input,textarea{
@@ -65,7 +67,7 @@ h5,
 h6,
 button,
 .button{
-    font-family: 'Press Start 2P', Georgia, 'Times New Roman', Times, serif;
+    font-family: var(--font-title)
 }
 
 button,
@@ -99,12 +101,16 @@ button:disabled,
     background-color: var(--color-selection);
 }
 
+.backBtns{
+    margin-top: 1rem;
+}
+
+
 @media all and (min-width: 1360px){
     :root{
         font-size: 120%;
     }
 }
-
 
 @media all and (min-width: 430px){
 
