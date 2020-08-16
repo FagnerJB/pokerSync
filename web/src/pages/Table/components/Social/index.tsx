@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
+import CopyToClipboard from 'react-copy-to-clipboard'
 
 import TableContext from '../../../../contexts/table'
-
 import { renderFace } from '../../../../localization'
-
-import { ILogsItem } from '../../interfaces'
+import { ILogsItem } from '../../../../utils/services'
 
 import './style.css'
 
@@ -60,23 +59,26 @@ const Social: React.FC<ISocialProps> = (props) => {
         // eslint-disable-next-line
     }, [logs, toggle])
 
-    function renderLog(obj: ILogsItem) {
+    function renderLog(log: ILogsItem) {
 
-        const swaps = "troca" + (obj.swap === 1 ? "" : "s")
-        const jokers = `Mais ${obj.jokers} coringa` + (obj.jokers === 1 ? "" : "s")
-        const suits = `Menos ${obj.suits.length} naipe` + (obj.suits.length === 1 ? "" : "s") + `: ${obj.suits.map((suit) => renderFace(suit)).join(',')}`
-        const ranks = `Menos ${obj.ranks.length} valor` + (obj.ranks.length === 1 ? "" : "es") + `: ${obj.ranks.sort().map((rank) => renderFace(rank)).join(',')}`
+        const { deal, user } = log
+
+        const swaps = "troca" + (deal.swap === 1 ? "" : "s")
+        const jokers = `Mais ${deal.jokers} coringa` + (deal.jokers === 1 ? "" : "s")
+        const suits = deal.suits && `Menos ${deal.suits.length} naipe` + (deal.suits.length === 1 ? "" : "s") + `: ${deal.suits.map((suit) => renderFace(suit)).join(',')}`
+        const ranks = deal.ranks && `Menos ${deal.ranks.length} valor` + (deal.ranks.length === 1 ? "" : "es") + `: ${deal.ranks.sort().map((rank) => renderFace(rank)).join(',')}`
+        const avatar = user.email && <Gravatar email={user.email} alt={`Imagem de ${user.name}`} size={16} />
 
         return (
-            <li key={obj.id}>
+            <li key={deal.id}>
                 <p>
-                    <button type="button" className="info-button"><i className="fas fa-info-circle"></i></button><strong>{obj.user.name}</strong> fez <strong>{obj.name}</strong>
+                    <button type="button" className="info-button"><i className="fas fa-info-circle"></i></button><strong>{user.name}</strong> {avatar} fez <strong>{deal.name}</strong>
                 </p>
                 <div className="info-box">
-                    <p>{obj.hand.map((face) => renderFace(face)).join(',')} com {obj.swap} {swaps}</p>
-                    {obj.jokers ? <p>{jokers}</p> : ''}
-                    {obj.suits.length ? <p>{suits}</p> : ''}
-                    {obj.ranks.length ? <p>{ranks}</p> : ''}
+                    <p>{deal.hand.map((face) => renderFace(face)).join(',')} com {deal.swap} {swaps}</p>
+                    {deal.jokers ? <p>{jokers}</p> : ''}
+                    {deal.suits ? <p>{suits}</p> : ''}
+                    {deal.ranks ? <p>{ranks}</p> : ''}
                 </div>
             </li>
         )
@@ -89,9 +91,13 @@ const Social: React.FC<ISocialProps> = (props) => {
                 <button type="button" className="closeBtn" data-badge={badge}
                     onClick={() => setOption("toggle", toggle === "social" ? "none" : "social")}
                 ><i className="fas fa-user-friends"></i></button>
-                {user.email && <Gravatar email={user.email} alt={`Imagem de ${user.name}`} className="gravatar" />}
+                {user.email && <a href="https://gravatar.com/" target="_blank" rel="noopener noreferrer"><Gravatar email={user.email} alt={`Imagem de ${user.name}`} className="gravatar" /></a>}
                 <h4>{user.name}</h4>
-                <p className="roomNum">Sala: {room} <i className="far fa-copy"></i></p>
+                <CopyToClipboard text={room}>
+                    <p className="roomNum">
+                        Sala: {room} <i className="far fa-copy"></i>
+                    </p>
+                </CopyToClipboard>
                 <p className="backBtn"><Link to="/">Voltar</Link></p>
             </header>
             <div className="logs">

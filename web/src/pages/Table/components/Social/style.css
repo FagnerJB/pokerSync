@@ -3,7 +3,7 @@
     top: 0;
     right: -16.9rem;
     display: grid;
-    grid-template-rows: 4.2rem 1fr;
+    grid-template: "header" 4.2rem "logs" 1fr / 1fr;
     height: 100vh;
     width: 100%;
     max-width: 16.9rem;
@@ -42,6 +42,7 @@
 }
 
 .socialPanel header{
+    grid-area: header;
     border-bottom: 1px solid var(--color-comment);
 }
 
@@ -60,17 +61,24 @@
     -moz-user-select: text!important;
     -ms-user-select: text!important;
     user-select: text!important;
+}
 
+.socialPanel .roomNum{
+    cursor: pointer;
 }
 
 .socialPanel .logs{
+    grid-area: logs;
     font-size: 0.8rem;
     padding-top: .2rem;
-    align-self: flex-end;
+    overflow-y: auto;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-end;
 }
 
-
 .socialPanel .logs ul{
+    overflow-x: hidden;
     list-style: none;
 }
 

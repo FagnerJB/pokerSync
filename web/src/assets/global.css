@@ -16,6 +16,17 @@
     font-size: 100%;
 }
 
+::-webkit-scrollbar{
+    width:5px;
+}
+::-webkit-scrollbar-track{
+    background:var(--color-selection)
+}
+::-webkit-scrollbar-thumb{
+    background:var(--color-comment);
+    border-radius:5px
+}
+
 *,
 *::after,
 *::before{

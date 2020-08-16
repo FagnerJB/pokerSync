@@ -38,7 +38,7 @@
     height: 100%;
 }
 
-.selected img{
+.selected .flip-card-back img{
     filter: sepia(100%);
     -webkit-filter: sepia(100%);
 }

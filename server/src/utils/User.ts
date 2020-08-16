@@ -9,7 +9,7 @@ const users: IConnections[] = [];
 
 export function addUser(socketID: string, room: string | null): IConnections {
 
-    const roomID = room ? room : cryptoRandomString({ length: 7 });
+    const roomID = room ? room : cryptoRandomString({ length: 7 })
     const user = { id: socketID, room: roomID }
 
     users.push(user)

@@ -4,6 +4,7 @@ import http from 'http'
 
 import routes from './routes'
 import { getUser, addUser } from './utils/User'
+import { disconnect } from 'mongoose'
 
 const app = express()
 const server = http.createServer(app)
@@ -22,21 +23,23 @@ app.use(routes)
 
 interface ILogsItem {
     user: {
-        name: string,
+        name: string
         email?: string
-    },
-    id: string,
-    name: string,
-    hand: string[],
-    swap: number,
-    jokers: number,
-    suits: string[],
-    ranks: string[]
+    }
+    deal: {
+        id: string
+        name: string
+        hand: string[]
+        swap: number
+        suits?: string[]
+        ranks?: string[]
+        jokers?: number
+    }
 }
 
 io.on('connection', (socket: any) => {
 
-    socket.on('giveRoom', (room: string) => {
+    socket.on('setRoom', (room: string) => {
 
         const user = addUser(socket.id, room)
 
@@ -45,7 +48,7 @@ io.on('connection', (socket: any) => {
 
         socket.on('newPlay', (data: ILogsItem) => {
 
-            io.in(user.room).emit('sendPlay', data)
+            io.in(user.room).emit('newPlay', data)
 
         })
 

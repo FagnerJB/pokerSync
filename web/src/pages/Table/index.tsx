@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, FormEvent } from 'react'
-import socketIO from 'socket.io-client'
+import io from 'socket.io-client'
 import { useHistory } from "react-router-dom"
 
 import Card from '../../components/Card'
@@ -7,15 +7,13 @@ import Options from './components/Options'
 import Social from './components/Social'
 import { cardClasses, cardImage } from '../../utils/cardFunctions'
 
-import api from '../../services/api';
+import { api, baseURL, ILogsItem } from '../../utils/services';
 import { renderName } from '../../localization'
 import TableContext from '../../contexts/table'
 
-import { ILogsItem } from './interfaces'
-
 import './style.css'
 
-const io = socketIO('http://localhost:3333')
+const socket = io(baseURL)
 
 function Table() {
 
@@ -52,9 +50,8 @@ function Table() {
             if (localDeck) setOption('deck', localDeck)
             if (localLang) setOption('lang', localLang)
 
-            io.emit('giveRoom', localUser.room)
-
-            io.on('setRoom', (room: string) => {
+            socket.emit('setRoom', localUser.room)
+            socket.on('setRoom', (room: string) => {
                 const newLocal = JSON.stringify({ ...localUser, room })
                 localStorage.setItem("pokerSync", newLocal)
                 setRoom(room)
@@ -65,14 +62,16 @@ function Table() {
         // eslint-disable-next-line
     }, [])
 
-
     useEffect(() => {
 
-        io.on('sendPlay', (data: ILogsItem) => {
-            setLogs([...logs, data])
-        })
+        const addLog = (log: ILogsItem) => setLogs([...logs, log])
+        socket.on('newPlay', addLog)
+        return () => {
+            socket.off('newPlay', addLog)
+        }
 
-    }, [logs])
+        // eslint-disable-next-line
+    }, [logs.length])
 
     useEffect(() => {
 
@@ -100,8 +99,9 @@ function Table() {
         setSwap([])
         setHand([])
         setSwaps(0)
-        setHandName('Embaralhando...')
         setAllowNew(false)
+        setAllowStop(false)
+        setHandName('Embaralhando...')
 
         api.post("/deal", {
             number: hmCards,
@@ -112,9 +112,9 @@ function Table() {
 
             localStorage.setItem('pokerSync_dealID', res.data.id)
 
-            setAllowStop(true)
             setHand(res.data.hand)
             setTimeout(() => {
+                setAllowStop(true)
                 setHandName(renderName(res.data.text, lang))
             }, 900)
 
@@ -143,6 +143,7 @@ function Table() {
 
         setSwap([])
         setHand([])
+        setAllowStop(false)
         setHandName('Trocando...')
 
         api.post(`/draw/${id}`, {
@@ -155,6 +156,7 @@ function Table() {
             setSwaps(swaps + 1)
             setHand(res.data.hand)
             setTimeout(() => {
+                setAllowStop(true)
                 setHandName(renderName(res.data.text, lang))
             }, 900)
 
@@ -177,21 +179,23 @@ function Table() {
 
         const localUser = JSON.parse(localName)
 
-        const playObj = ({
+        const playObj = {
             user: {
                 name: localUser.name,
                 email: localUser.email
             },
-            id: id,
-            name: handName,
-            hand: hand,
-            swap: swaps,
-            jokers: hmJokers,
-            suits: rmSuits,
-            ranks: rmRanks
-        })
+            deal: {
+                id: id,
+                name: handName,
+                hand: hand,
+                swap: swaps,
+                jokers: hmJokers === 0 ? hmJokers : undefined,
+                suits: rmSuits.length !== 0 ? rmSuits : undefined,
+                ranks: rmRanks.length !== 0 ? rmRanks : undefined
+            }
+        }
 
-        io.emit('newPlay', playObj)
+        socket.emit('newPlay', playObj)
 
     }
 

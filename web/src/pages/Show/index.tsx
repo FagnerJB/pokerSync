@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import Card from '../../components/Card'
 import { cardClasses, cardImage } from '../../utils/cardFunctions'
 
-import api from '../../services/api';
+import { api } from '../../utils/services';
 import { renderName } from '../../localization'
 
 function Show(props: any) {

@@ -128,7 +128,6 @@ function fullName(text: { name: string, desc: string }, lang: string) {
 
 
     if (!card && 'High Card' !== text.name) {
-        console.log(text.desc, '|', text.name)
 
         const onlyRanks = text.desc.matchAll(/(A|K|Q|J|10|9|8|7|6|5|4|3|2)('s| High)/g)
         card = Array.from(onlyRanks, (match) => {
