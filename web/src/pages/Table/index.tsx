@@ -86,9 +86,10 @@ function Table() {
 
         if (52 + (hmJokers - ((rmSuits.length * 13) + (rmRanks.length * (4 - rmSuits.length)))) < hmCards)
             setAllowNew(false)
-        else
+        else if (!allowStop)
             setAllowNew(true)
 
+        // eslint-disable-next-line
     }, [hmJokers, rmSuits, rmRanks, hmCards])
 
 
@@ -189,7 +190,7 @@ function Table() {
                 name: handName,
                 hand: hand,
                 swap: swaps,
-                jokers: hmJokers === 0 ? hmJokers : undefined,
+                jokers: hmJokers !== 0 ? hmJokers : undefined,
                 suits: rmSuits.length !== 0 ? rmSuits : undefined,
                 ranks: rmRanks.length !== 0 ? rmRanks : undefined
             }

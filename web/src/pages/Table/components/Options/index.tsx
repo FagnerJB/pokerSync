@@ -79,7 +79,7 @@ function Options() {
                     )}
                 </div>
                 <div>
-                    <h6>Número de Coringas</h6>
+                    <h6>Número de coringas</h6>
                     {[0, 1, 2, 3, 4].map((joker, i) =>
                         <span key={`jokers-${i}`}>
                             <input id={`jokers-${i}`} type="radio" name="jokers" value={joker}
@@ -95,7 +95,7 @@ function Options() {
                     )}
                 </div>
                 <div>
-                    <h6>Remover Naipes</h6>
+                    <h6>Remover naipes</h6>
                     {suitList.map((suit, i) =>
                         <span key={`suit-${i}`}>
                             <input id={`suit-${i}`} type="checkbox" name="suits" value={suit.key}
@@ -111,7 +111,7 @@ function Options() {
                     )}
                 </div>
                 <div className="rankOptions">
-                    <h6>Remover Valores</h6>
+                    <h6>Remover valores</h6>
                     {rankList.map((rank, i) =>
                         <span key={`rank-${i}`}>
                             <input id={`rank-${i}`} type="checkbox" name="ranks" value={rank}
@@ -159,7 +159,10 @@ function Options() {
                     </span>
                 )}
             </div>
-            <div><small><a href="https://greebles.itch.io/pixel-plebes" target="_blank" rel="noopener noreferrer">Pixel Plebes by Devlyn JD</a></small></div>
+            <div>
+                <h6>Créditos</h6>
+                <small><a href="https://greebles.itch.io/pixel-plebes" target="_blank" rel="noopener noreferrer">Pixel Plebes by Devlyn JD</a></small>
+            </div>
         </div>
 
     )

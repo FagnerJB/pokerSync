@@ -9,8 +9,8 @@ function Routes() {
     return (
         <BrowserRouter>
             <Route path="/" exact component={Enter} />
-            <Route path="/table" exact component={Table} />
-            <Route path="/table/:id" component={Show} />
+            <Route path="/play" exact component={Table} />
+            <Route path="/play/:id" component={Show} />
         </BrowserRouter>
     )
 }

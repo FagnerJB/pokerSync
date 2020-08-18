@@ -72,13 +72,13 @@ const Social: React.FC<ISocialProps> = (props) => {
         return (
             <li key={deal.id}>
                 <p>
-                    <button type="button" className="info-button"><i className="fas fa-info-circle"></i></button><strong>{user.name}</strong> {avatar} fez <strong>{deal.name}</strong>
+                    <button type="button" className="info-button"><i className="fas fa-info-circle"></i></button><strong>{user.name}</strong> {avatar} fez <strong title={deal.name}>{deal.name}</strong> &bull; <span className="time-log">{deal.time}</span>
                 </p>
                 <div className="info-box">
                     <p>{deal.hand.map((face) => renderFace(face)).join(',')} com {deal.swap} {swaps}</p>
-                    {deal.jokers ? <p>{jokers}</p> : ''}
-                    {deal.suits ? <p>{suits}</p> : ''}
-                    {deal.ranks ? <p>{ranks}</p> : ''}
+                    {deal.jokers && <p>{jokers}</p>}
+                    {deal.suits && <p>{suits}</p>}
+                    {deal.ranks && <p>{ranks}</p>}
                 </div>
             </li>
         )

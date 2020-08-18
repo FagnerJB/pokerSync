@@ -3,8 +3,7 @@ import cors from 'cors'
 import http from 'http'
 
 import routes from './routes'
-import { getUser, addUser } from './utils/User'
-import { disconnect } from 'mongoose'
+import { addUser, remUser, getTime } from './utils/User'
 
 const app = express()
 const server = http.createServer(app)
@@ -48,9 +47,19 @@ io.on('connection', (socket: any) => {
 
         socket.on('newPlay', (data: ILogsItem) => {
 
+            console.log(data)
+
+            Object.assign(data.deal, { time: getTime() })
+
             io.in(user.room).emit('newPlay', data)
 
         })
+
+    })
+
+    socket.on('disconnect', () => {
+
+        remUser(socket.id)
 
     })
 

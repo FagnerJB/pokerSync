@@ -64,7 +64,7 @@ export function makeDeal(howMany: number, jokers: number, remSuits: string, remR
 
     return {
         deck: allCards.slice(howMany),
-        hand: solved.cards.map((card: PokerCard) => card.value + card.suit),
+        hand: solved.cardPool.map((card: PokerCard) => card.value + card.suit),
         text: {
             name: solved.name,
             desc: solved.descr
@@ -95,7 +95,7 @@ export function makeDraw(db: { hand: string[], deck: string[] }, hand: string[],
 
     return {
         deck: deck,
-        hand: solved.cards.map((card: PokerCard) => card.value + card.suit),
+        hand: solved.cardPool.map((card: PokerCard) => card.value + card.suit),
         text: {
             name: solved.name,
             desc: solved.descr

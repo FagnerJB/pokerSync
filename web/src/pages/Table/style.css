@@ -19,6 +19,12 @@ label.button{
 
 .swapButtons{
     margin-top: .2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.swapButtons input{
+    display: none;
 }
 
 .swapButtons input[name="swaps"]:checked + .button{

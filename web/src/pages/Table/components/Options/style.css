@@ -43,8 +43,7 @@
     margin: 1rem 0 .2rem;
 }
 
-.optionsPanel input,
-.swapButtons input{
+.optionsPanel input{
     display: none;
 }
 

@@ -13,6 +13,7 @@ export interface ILogsItem {
         suits?: string[]
         ranks?: string[]
         jokers?: number
+        time?: string
     }
 }
 

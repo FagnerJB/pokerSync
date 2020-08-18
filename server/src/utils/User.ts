@@ -1,11 +1,13 @@
-const cryptoRandomString = require('crypto-random-string');
+import moment from 'moment';
+
+const cryptoRandomString = require('crypto-random-string')
 
 interface IConnections {
     id: string,
     room: string
 }
 
-const users: IConnections[] = [];
+let users: IConnections[] = [];
 
 export function addUser(socketID: string, room: string | null): IConnections {
 
@@ -18,8 +20,21 @@ export function addUser(socketID: string, room: string | null): IConnections {
 
 }
 
+export function remUser(id: string) {
+
+    users = users.filter(user => user.id !== id)
+
+}
+
 export function getUser(id: string) {
 
     return users.find(user => user.id === id)
+
+}
+
+
+export function getTime() {
+
+    return moment().format('HH:mm')
 
 }
