@@ -35,10 +35,8 @@ function Options() {
     }, [hmJokers, rmSuits, rmRanks])
 
     function handleReset(e: FormEvent) {
-
         e.preventDefault()
         setInitial()
-
     }
 
     function handleLang(e: ChangeEvent<HTMLInputElement>): void {

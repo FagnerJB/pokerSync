@@ -27,6 +27,7 @@ const Social: React.FC<ISocialProps> = (props) => {
     const [user, setUser] = useState<IUserState>({} as IUserState)
     const [seen, setSeen] = useState(logs.length)
     const [badge, setBadge] = useState(0)
+    const [copied, setCopied] = useState(false)
 
     const { toggle, setOption } = useContext(TableContext)
 
@@ -85,6 +86,16 @@ const Social: React.FC<ISocialProps> = (props) => {
 
     }
 
+    function handleCopy() {
+
+        setCopied(true)
+
+        setTimeout(() => {
+            setCopied(false)
+        }, 2222)
+
+    }
+
     return (
         <div className={"socialPanel" + (toggle === "social" ? " opened" : "")}>
             <header>
@@ -93,9 +104,9 @@ const Social: React.FC<ISocialProps> = (props) => {
                 ><i className="fas fa-user-friends"></i></button>
                 {user.email && <a href="https://gravatar.com/" target="_blank" rel="noopener noreferrer"><Gravatar email={user.email} alt={`Imagem de ${user.name}`} className="gravatar" /></a>}
                 <h4>{user.name}</h4>
-                <CopyToClipboard text={room}>
-                    <p className="roomNum">
-                        Sala: {room} <i className="far fa-copy"></i>
+                <CopyToClipboard text={room} onCopy={handleCopy}>
+                    <p className={copied ? "roomNum copied" : "roomNum"}>
+                        Sala: {room} <i className="far fa-copy"></i><i className="fas fa-check"></i>
                     </p>
                 </CopyToClipboard>
                 <p className="backBtn"><Link to="/">Voltar</Link></p>

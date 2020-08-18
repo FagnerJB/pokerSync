@@ -67,6 +67,15 @@
     cursor: pointer;
 }
 
+.socialPanel *:not(.copied).roomNum .fa-check,
+.socialPanel .copied .fa-copy{
+    display: none;
+}
+
+.socialPanel .copied{
+    color: var(--color-green);
+}
+
 .socialPanel .logs{
     grid-area: logs;
     font-size: 0.8rem;
