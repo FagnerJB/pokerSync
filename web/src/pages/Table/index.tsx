@@ -7,13 +7,15 @@ import Options from './components/Options'
 import Social from './components/Social'
 import { cardClasses, cardImage } from '../../utils/cardFunctions'
 
-import { api, baseURL, ILogsItem } from '../../utils/services';
+import { api, baseURI, pathURI, ILogsItem } from '../../utils/services';
 import { renderName } from '../../localization'
 import TableContext from '../../contexts/table'
 
 import './style.css'
 
-const socket = io(baseURL)
+const socket = io(baseURI, {
+    path: pathURI + "/socket.io"
+})
 
 function Table() {
 
@@ -39,7 +41,7 @@ function Table() {
 
         if (!localName) {
 
-            history.push('/')
+            history.push('/app/pokersync')
 
         } else {
 

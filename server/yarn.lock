@@ -359,13 +359,6 @@ cors@^2.8.5:
     object-assign "^4"
     vary "^1"
 
-crypto-random-string@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-3.2.0.tgz#d513ef0c2ac6ff7cad5769de585d9bf2ad5a2b4d"
-  integrity sha512-8vPu5bsKaq2uKRy3OL7h1Oo7RayAWB8sYexLKAqvCXVib8SxgbmoF1IN4QMKjBv8uI8mp5gPPMbiRah25GMrVQ==
-  dependencies:
-    type-fest "^0.8.1"
-
 currently-unhandled@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/currently-unhandled/-/currently-unhandled-0.4.1.tgz#988df33feab191ef799a61369dd76c17adf957ea"
@@ -847,11 +840,6 @@ mkdirp@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
-
-moment@^2.27.0:
-  version "2.27.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
-  integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
 
 mongodb@3.5.10:
   version "3.5.10"
@@ -1446,11 +1434,6 @@ tsconfig@^7.0.0:
     "@types/strip-json-comments" "0.0.30"
     strip-bom "^3.0.0"
     strip-json-comments "^2.0.0"
-
-type-fest@^0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.8.1.tgz#09e249ebde851d3b1e48d27c105444667f17b83d"
-  integrity sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==
 
 type-is@~1.6.17, type-is@~1.6.18:
   version "1.6.18"

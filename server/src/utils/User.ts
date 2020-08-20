@@ -1,6 +1,4 @@
-import moment from 'moment';
-
-const cryptoRandomString = require('crypto-random-string')
+const shuffle = require('shuffle-array')
 
 interface IConnections {
     id: string,
@@ -9,9 +7,24 @@ interface IConnections {
 
 let users: IConnections[] = [];
 
+function randomString(length: number) {
+
+    const characters = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"]
+    let random = ""
+
+    for (let i = 0; i < length; i++) {
+
+        random += shuffle(characters)[1]
+
+    }
+
+    return random
+
+}
+
 export function addUser(socketID: string, room: string | null): IConnections {
 
-    const roomID = room ? room : cryptoRandomString({ length: 7 })
+    const roomID = room ? room : randomString(7)
     const user = { id: socketID, room: roomID }
 
     users.push(user)
@@ -29,12 +42,5 @@ export function remUser(id: string) {
 export function getUser(id: string) {
 
     return users.find(user => user.id === id)
-
-}
-
-
-export function getTime() {
-
-    return moment().format('HH:mm')
 
 }

@@ -48,7 +48,7 @@ function Show(props: any) {
                 })}
             </div>
             <div className="backBtns">
-                <Link to="/">Voltar</Link>
+                <Link to="/app/pokersync">Voltar</Link>
             </div>
         </>
 

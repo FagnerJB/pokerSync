@@ -109,7 +109,7 @@ const Social: React.FC<ISocialProps> = (props) => {
                         Sala: {room} <i className="far fa-copy"></i><i className="fas fa-check"></i>
                     </p>
                 </CopyToClipboard>
-                <p className="backBtn"><Link to="/">Voltar</Link></p>
+                <p className="backBtn"><Link to="/app/pokersync">Voltar</Link></p>
             </header>
             <div className="logs">
                 {logs.length > 0 ? <ul>{logs.map((item) => renderLog(item))}</ul> : "As jogadas aparecerão aqui."}
