@@ -38,7 +38,7 @@ function Enter() {
             room: room.trim()
         }))
 
-        history.push('/app/pokersync/play')
+        history.push(`${process.env.PUBLIC_URL}/play`)
 
     }
 

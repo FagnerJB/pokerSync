@@ -108,6 +108,7 @@ function fullName(text: { name: string, desc: string }, lang: string) {
 
     let name = ''
     let card = ''
+    //const plural = ['Pair', 'Two Pair', 'Three of a Kind', 'Four of a Kind', 'Five of a Kind']
 
     for (let item of Object.entries(names)) {
 

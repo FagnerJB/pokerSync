@@ -13,7 +13,7 @@
     --font-body: 'Nova Mono', Georgia, 'Times New Roman', Times, serif;
     --font-title: 'Press Start 2P', Georgia, 'Times New Roman', Times, serif;
     --width-card: 140px;
-    font-size: 100%;
+    font-size: 60%;
 }
 
 ::-webkit-scrollbar{
@@ -116,17 +116,22 @@ button:disabled,
     margin-top: 1rem;
 }
 
-
-@media all and (min-width: 1360px){
-    :root{
-        font-size: 120%;
-    }
-}
-
 @media all and (min-width: 430px){
 
     button i,
     .button i{
         display: inline-block;
+    }
+}
+
+@media all and (min-width: 700px){
+    :root{
+        font-size: 100%;
+    }
+}
+
+@media all and (min-width: 1360px){
+    :root{
+        font-size: 120%;
     }
 }

@@ -1,21 +1,32 @@
-import React, { useState, useEffect, useContext, FormEvent } from 'react'
+import React, { useState, useEffect, useContext, useReducer, FormEvent } from 'react'
 import io from 'socket.io-client'
 import { useHistory } from "react-router-dom"
 
 import Card from '../../components/Card'
 import Options from './components/Options'
-import Social from './components/Social'
+import Social, { IUserState } from './components/Social'
 import { cardClasses, cardImage } from '../../utils/cardFunctions'
 
-import { api, baseURI, pathURI, ILogsItem } from '../../utils/services';
 import { renderName } from '../../localization'
 import TableContext from '../../contexts/table'
+import { api, serverBaseURI, serverPathURI, ILogsItem } from '../../utils/services'
+import { tableReducer } from './reducer'
 
 import './style.css'
 
-const socket = io(baseURI, {
-    path: pathURI + "/socket.io"
+const socket = io(serverBaseURI, {
+    path: serverPathURI + "/socket.io"
 })
+
+const initialState = {
+    handName: "Bem-vinde",
+    inHand: [],
+    toSwap: [],
+    swaps: 0,
+    allowNew: true,
+    allowSwap: false,
+    allowStop: false
+}
 
 function Table() {
 
@@ -23,17 +34,12 @@ function Table() {
 
     const { hmCards, hmJokers, rmSuits, rmRanks, deck, lang, setOption } = useContext(TableContext)
 
+    const [state, dispatch] = useReducer(tableReducer, initialState)
+    const { inHand, toSwap, swaps, handName, allowNew, allowSwap, allowStop } = state
+
     const [room, setRoom] = useState('')
     const [logs, setLogs] = useState<ILogsItem[]>([])
-
-    const [hand, setHand] = useState<string[]>([])
-    const [swap, setSwap] = useState<string[]>([])
-    const [swaps, setSwaps] = useState(0)
-    const [handName, setHandName] = useState("Bem-vinde")
-
-    const [allowNew, setAllowNew] = useState(true)
-    const [allowSwap, setAllowSwap] = useState(false)
-    const [allowStop, setAllowStop] = useState(false)
+    const [players, setPlayers] = useState<IUserState[]>([])
 
     useEffect(() => {
 
@@ -41,7 +47,7 @@ function Table() {
 
         if (!localName) {
 
-            history.push('/app/pokersync')
+            history.push(process.env.PUBLIC_URL)
 
         } else {
 
@@ -52,7 +58,12 @@ function Table() {
             if (localDeck) setOption('deck', localDeck)
             if (localLang) setOption('lang', localLang)
 
-            socket.emit('setRoom', localUser.room)
+            socket.emit('setRoom', {
+                name: localUser.name,
+                email: localUser.email,
+                room: localUser.room
+            })
+
             socket.on('setRoom', (room: string) => {
                 const newLocal = JSON.stringify({ ...localUser, room })
                 localStorage.setItem("pokerSync", newLocal)
@@ -63,6 +74,7 @@ function Table() {
 
         // eslint-disable-next-line
     }, [])
+
 
     useEffect(() => {
 
@@ -77,34 +89,55 @@ function Table() {
 
     useEffect(() => {
 
-        if (swaps >= 3 || hand.length === 0 || swap.length === 0)
-            setAllowSwap(false)
-        else
-            setAllowSwap(true)
+        const addPlayer = (players: IUserState[]) => setPlayers(players)
+        socket.on('setPlayers', addPlayer)
+        return () => {
+            socket.off('setPlayers', addPlayer)
+        }
 
-    }, [swaps, hand, swap])
+    }, [players.length])
+
+    useEffect(() => {
+
+        if (swaps >= 3 || inHand.length === 0 || toSwap.length === 0)
+            dispatch({ type: "canSwap", payload: false })
+        else
+            dispatch({ type: "canSwap", payload: true })
+
+        if (swaps === 3 && allowStop)
+            handleStop()
+
+        // eslint-disable-next-line
+    }, [swaps, inHand, toSwap])
 
     useEffect(() => {
 
         if (52 + (hmJokers - ((rmSuits.length * 13) + (rmRanks.length * (4 - rmSuits.length)))) < hmCards)
-            setAllowNew(false)
+            dispatch({ type: "canNew", payload: false })
         else if (!allowStop)
-            setAllowNew(true)
+            dispatch({ type: "canNew", payload: true })
 
         // eslint-disable-next-line
     }, [hmJokers, rmSuits, rmRanks, hmCards])
+
+
+    function handleSelect(face: string): void {
+
+        if (!allowStop) return
+
+        if (toSwap.includes(face))
+            dispatch({ type: "requestSelect", payload: { swap: toSwap.filter((f: string) => f !== face) } })
+        else
+            dispatch({ type: "requestSelect", payload: { swap: [...toSwap, face] } })
+
+    }
 
 
     function handleNewHand(e: FormEvent): void {
 
         e.preventDefault()
 
-        setSwap([])
-        setHand([])
-        setSwaps(0)
-        setAllowNew(false)
-        setAllowStop(false)
-        setHandName('Embaralhando...')
+        dispatch({ type: "requestNew" })
 
         api.post("/deal", {
             number: hmCards,
@@ -115,70 +148,64 @@ function Table() {
 
             localStorage.setItem('pokerSync_dealID', res.data.id)
 
-            setHand(res.data.hand)
             setTimeout(() => {
-                setAllowStop(true)
-                setHandName(renderName(res.data.text, lang))
-            }, 900)
+                dispatch({
+                    type: "receiveNew", payload: {
+                        hand: res.data.hand,
+                        handName: renderName(res.data.text, lang)
+                    }
+                })
+            }, 888)
 
         })
 
     }
 
-    function handleSelect(face: string): void {
-
-        if (!allowStop) return
-
-        if (swap.includes(face))
-            setSwap(swap.filter((f) => f !== face))
-        else
-            setSwap([...swap, face])
-
-    }
 
     function handleSwapHand(e: FormEvent): void {
 
         e.preventDefault()
+        if (!allowSwap) return
 
         const id = localStorage.getItem('pokerSync_dealID')
 
         if (!id) return
 
-        setSwap([])
-        setHand([])
-        setAllowStop(false)
-        setHandName('Trocando...')
+        dispatch({ type: "requestSwap" })
 
         api.post(`/draw/${id}`, {
-            hand: hand.join(","),
-            swap: swap.join(",")
+            hand: inHand.join(","),
+            swap: toSwap.join(",")
         }).then(res => {
 
             localStorage.setItem('pokerSync_dealID', res.data.id)
 
-            setSwaps(swaps + 1)
-            setHand(res.data.hand)
             setTimeout(() => {
-                setAllowStop(true)
-                setHandName(renderName(res.data.text, lang))
-            }, 900)
+
+                dispatch({
+                    type: "receiveSwap", payload: {
+                        swaps: swaps + 1,
+                        hand: res.data.hand,
+                        handName: renderName(res.data.text, lang)
+                    }
+                })
+            }, 888)
 
         })
 
     }
 
-    function handleStop(e: FormEvent): void {
+    function handleStop(e?: FormEvent): void {
 
-        e.preventDefault()
+        if (e) e.preventDefault()
+        if (!allowStop) return
 
         const id = localStorage.getItem('pokerSync_dealID')
         const localName = localStorage.getItem("pokerSync")
 
-        if (!id || !localName || hand.length === 0) return
+        if (!id || !localName || inHand.length === 0) return
 
-        setAllowNew(true)
-        setAllowStop(false)
-        setSwap([])
+        dispatch({ type: "requestStop" })
 
         const localUser = JSON.parse(localName)
 
@@ -190,7 +217,7 @@ function Table() {
             deal: {
                 id: id,
                 name: handName,
-                hand: hand,
+                hand: inHand,
                 swap: swaps,
                 jokers: hmJokers !== 0 ? hmJokers : undefined,
                 suits: rmSuits.length !== 0 ? rmSuits : undefined,
@@ -205,15 +232,15 @@ function Table() {
     return (
         <>
             <Options />
-            <Social logs={logs} room={room} />
+            <Social logs={logs} room={room} players={players} />
             <header className="hand-name">
                 <h2>{handName}</h2>
             </header>
             <div className="table">
-                {hand.length > 0 ? hand.map((face, i) => {
+                {inHand.length > 0 ? inHand.map((face: string, i: number) => {
 
                     return (
-                        <div key={`card-${i}`} className={cardClasses(deck, swap.includes(face))}
+                        <div key={`card-${i}`} className={cardClasses(deck, toSwap.includes(face))}
                             onClick={() => handleSelect(face)}
                         >
                             <Card face={face} src={cardImage(deck, face)} back={cardImage(deck, "back")} />
@@ -223,19 +250,19 @@ function Table() {
                 }) : Array.from(Array(hmCards).keys()).map((i) => <div key={`empty-${i}`} className={`card empty ${deck}`}></div>)}
             </div>
             <div className="swapButtons">
-                {hand.map((face, i) =>
+                {inHand.map((face: string, i: number) =>
                     <span key={`swap-${i}`}>
                         <input id={`swap-${i}`} type="checkbox" name="swaps" value={face}
-                            checked={swap.includes(face)}
+                            checked={toSwap.includes(face)}
                             onChange={() => handleSelect(face)}
                         />
                         <label htmlFor={`swap-${i}`}
                             tabIndex={0}
                             role="button"
-                            aria-pressed={swap.includes(face)}
+                            aria-pressed={toSwap.includes(face)}
                             className="button"
                         >
-                            <i className="fas fa-hand-point-down"></i> {swap.includes(face) ? 'Troca' : 'Fica'}
+                            <i className="fas fa-hand-point-down"></i> {toSwap.includes(face) ? 'Troca' : 'Fica'}
                         </label>
                     </span>
                 )}
@@ -251,7 +278,7 @@ function Table() {
                     <i className="fas fa-stop" /> Parar
                 </button>
             </div>
-            {(!allowNew || hand.length > 0) && (
+            {(!allowNew || inHand.length > 0) && (
                 <div className={`swapsCount level-${swaps}`}>
                     Trocas
                     {Array.from(Array(3).keys()).map((i) => {

@@ -5,11 +5,11 @@
     "homepage": "https://fagnerjb.com/app/pokersync",
     "dependencies": {
         "axios": "^0.19.2",
+        "md5": "^2.3.0",
         "node-emoji": "^1.10.0",
         "react": "^16.13.1",
         "react-copy-to-clipboard": "^5.0.2",
         "react-dom": "^16.13.1",
-        "react-gravatar": "^2.6.3",
         "react-router-dom": "^5.2.0",
         "react-scripts": "3.4.1",
         "socket.io-client": "^2.3.0"
@@ -36,16 +36,18 @@
         ]
     },
     "devDependencies": {
-        "typescript": "~3.7.2",
         "@testing-library/jest-dom": "^4.2.4",
         "@testing-library/react": "^9.3.2",
         "@testing-library/user-event": "^7.1.2",
         "@types/jest": "^24.0.0",
+        "@types/md5": "^2.2.0",
         "@types/node": "^12.0.0",
         "@types/react": "^16.9.0",
         "@types/react-copy-to-clipboard": "^4.3.0",
         "@types/react-dom": "^16.9.0",
         "@types/react-router-dom": "^5.1.5",
-        "@types/socket.io-client": "^1.4.33"
+        "@types/socket.io-client": "^1.4.33",
+        "dotenv": "^8.2.0",
+        "typescript": "~3.7.2"
     }
 }

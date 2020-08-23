@@ -3,7 +3,8 @@ import cors from 'cors'
 import http from 'http'
 
 import routes from './routes'
-import { addUser, remUser } from './utils/User'
+import { IUser, addUser, getUsers, remUser } from './utils/User'
+import getHour from './utils/Hour'
 
 const app = express()
 const server = http.createServer(app)
@@ -46,31 +47,38 @@ interface ILogsItem {
 
 io.on('connection', (socket: any) => {
 
-    socket.on('setRoom', (room: string) => {
+    socket.on('setRoom', (data: IUser) => {
 
-        const user = addUser(socket.id, room)
+        const { name, email, room } = data
+
+        const user = addUser({
+            id: socket.id,
+            name,
+            email,
+            room
+        })
 
         socket.join(user.room)
         socket.emit('setRoom', user.room)
+        io.in(user.room).emit('setPlayers', getUsers(user.room!))
 
         socket.on('newPlay', (data: ILogsItem) => {
 
-            const now = new Date()
-            const now_hour = (now.getUTCHours() - 3) + ":" + now.getUTCMinutes()
-
-            Object.assign(data.deal, { time: now_hour })
+            Object.assign(data.deal, { time: getHour() })
 
             io.in(user.room).emit('newPlay', data)
 
         })
 
+        socket.on('disconnect', () => {
+
+            remUser(socket.id)
+            socket.to(user.room).emit('setPlayers', getUsers(user.room!))
+
+        })
+
     })
 
-    socket.on('disconnect', () => {
-
-        remUser(socket.id)
-
-    })
 
 })
 

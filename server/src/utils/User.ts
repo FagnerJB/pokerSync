@@ -1,8 +1,13 @@
 const shuffle = require('shuffle-array')
 
-interface IConnections {
-    id: string,
-    room: string
+export interface IUser {
+    name: string
+    email: string | null
+    room: string | null
+}
+
+type IConnections = IUser & {
+    id: string
 }
 
 let users: IConnections[] = [];
@@ -13,19 +18,23 @@ function randomString(length: number) {
     let random = ""
 
     for (let i = 0; i < length; i++) {
-
         random += shuffle(characters)[1]
-
     }
 
     return random
 
 }
 
-export function addUser(socketID: string, room: string | null): IConnections {
+export function addUser(data: IConnections): IConnections {
 
+    const { id, name, email, room } = data
     const roomID = room ? room : randomString(7)
-    const user = { id: socketID, room: roomID }
+    const user = {
+        id,
+        name,
+        email,
+        room: roomID
+    }
 
     users.push(user)
 
@@ -39,8 +48,13 @@ export function remUser(id: string) {
 
 }
 
-export function getUser(id: string) {
+export function getUsers(room: string) {
 
-    return users.find(user => user.id === id)
+    return users.filter(user => user.room === room).map((item) => {
+        return {
+            email: item.email,
+            name: item.name
+        }
+    })
 
 }

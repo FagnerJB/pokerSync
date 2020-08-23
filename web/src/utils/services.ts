@@ -17,9 +17,10 @@ export interface ILogsItem {
     }
 }
 
-export const baseURI = 'https://fagnerjb.com' // 'http://localhost:3333'
-export const pathURI = '/api/pokersync'
+export const serverBaseURI = (process.env.NODE_ENV === "development") ? 'http://localhost:3333' : 'https://fagnerjb.com'
+export const serverPathURI = (process.env.NODE_ENV === "development") ? '' : '/api/pokersync'
+export const appBaseURI = (process.env.NODE_ENV === "development") ? 'http://localhost:3000' : 'https://fagnerjb.com'
 
 export const api = axios.create({
-    baseURL: baseURI + pathURI
+    baseURL: serverBaseURI + serverPathURI
 })

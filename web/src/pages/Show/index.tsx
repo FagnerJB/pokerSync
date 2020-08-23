@@ -47,9 +47,11 @@ function Show(props: any) {
 
                 })}
             </div>
-            <div className="backBtns">
-                <Link to="/app/pokersync">Voltar</Link>
-            </div>
+            {(window.location === window.parent.location) &&
+                <div className="backBtns">
+                    <Link to={process.env.PUBLIC_URL}>Voltar</Link>
+                </div>
+            }
         </>
 
     )

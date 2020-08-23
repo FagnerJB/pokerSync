@@ -8,9 +8,9 @@ import Show from './pages/Show'
 function Routes() {
     return (
         <BrowserRouter>
-            <Route path="/app/pokersync" exact component={Enter} />
-            <Route path="/app/pokersync/play" exact component={Table} />
-            <Route path="/app/pokersync/play/:id" component={Show} />
+            <Route path={process.env.PUBLIC_URL} exact component={Enter} />
+            <Route path={`${process.env.PUBLIC_URL}/play`} exact component={Table} />
+            <Route path={`${process.env.PUBLIC_URL}/show/:id`} component={Show} />
         </BrowserRouter>
     )
 }

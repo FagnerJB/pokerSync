@@ -8,6 +8,7 @@
     padding: 1rem;
     background-color: var(--color-selection);
     transition: .5s;
+    box-shadow: .01rem 0 .5rem rgba(0,0,0,.5);
     z-index: 99;
 }
 
