@@ -27,7 +27,8 @@ export function getName(hand: string[]) {
 
     return {
         name: solved.name,
-        desc: solved.descr
+        desc: solved.descr,
+        rarity: solved.rank
     }
 
 }
@@ -67,7 +68,8 @@ export function makeDeal(howMany: number, jokers: number, remSuits: string, remR
         hand: solved.cardPool.map((card: PokerCard) => card.value + card.suit),
         text: {
             name: solved.name,
-            desc: solved.descr
+            desc: solved.descr,
+            rarity: solved.rank
         }
     }
 
@@ -98,7 +100,8 @@ export function makeDraw(db: { hand: string[], deck: string[] }, hand: string[],
         hand: solved.cardPool.map((card: PokerCard) => card.value + card.suit),
         text: {
             name: solved.name,
-            desc: solved.descr
+            desc: solved.descr,
+            rarity: solved.rank
         }
     }
 

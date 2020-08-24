@@ -1,78 +1,118 @@
 const names = {
     "Five of a Kind": {
-        "pt": "Quina"
+        "pt": "Quina",
+        "eo": "Kvinopo"
+    },
+    "Royal Flush": {
+        "pt": "Sequência real",
+        "eo": "Reĝa emblemo",
+    },
+    "Straight Flush": {
+        "eo": "Sekvenco"
     },
     "Four of a Kind": {
-        "pt": "Quadra"
+        "pt": "Quadra",
+        "eo": "Kvaropo"
+    },
+    "Full House": {
+        "eo": "Plena domo"
+    },
+    "Flush": {
+        "eo": "Emblemo"
+    },
+    "Straight": {
+        "pt": "Sequência",
+        "eo": "Sinsekvo"
     },
     "Three of a Kind": {
-        "pt": "Trinca"
+        "pt": "Trinca",
+        "eo": "Triopo"
     },
     "Two Pair": {
-        "pt": "Dois pares"
+        "pt": "Dois pares",
+        "eo": "Du paroj"
     },
     "Pair": {
-        "pt": "Par"
+        "pt": "Par",
+        "eo": "Paro"
     },
     "High Card": {
-        "pt": "Maior carta"
+        "pt": "Maior carta",
+        "eo": "Alta karto"
     }
 }
 
 const ranks = {
     "2": {
-        "pt": "Dois"
+        "pt": "Dois",
+        "eo": "Du"
     },
     "3": {
-        "pt": "Três"
-    },
-    "Q": {
-        "pt": "Dama"
+        "pt": "Três",
+        "eo": "Tri",
     },
     "4": {
-        "pt": "Quatro"
+        "pt": "Quatro",
+        "eo": "Kvar",
     },
     "5": {
-        "pt": "Cinco"
+        "pt": "Cinco",
+        "eo": "Kvin"
     },
     "6": {
-        "pt": "Seis"
+        "pt": "Seis",
+        "eo": "Ses"
     },
     "7": {
-        "pt": "Sete"
+        "pt": "Sete",
+        "eo": "Sep"
     },
     "8": {
-        "pt": "Oito"
+        "pt": "Oito",
+        "eo": "Ok"
     },
     "9": {
-        "pt": "Nove"
+        "pt": "Nove",
+        "eo": "Naŭ"
     },
     "10": {
-        "pt": "Dez"
+        "pt": "Dez",
+        "eo": "Dek"
     },
     "J": {
-        "pt": "Valete"
+        "pt": "Valete",
+        "eo": "Fanto"
+    },
+    "Q": {
+        "pt": "Dama",
+        "eo": "Damo"
     },
     "K": {
-        "pt": "Rei"
+        "pt": "Rei",
+        "eo": "Reĝo",
     },
     "A": {
-        "pt": "Ás"
+        "pt": "Ás",
+        "eo": "Aso",
     }
 }
 
 const suits = {
     "s": {
-        "pt": "Espadas"
+        "pt": "Espadas",
+        "eo": "Piko"
     },
     "h": {
-        "pt": "Copas"
+        "pt": "Copas",
+        "eo": "Kero"
     },
     "c": {
-        "pt": "Paus"
+        "pt": "Paus",
+        "eo": "Trefo"
     },
     "d": {
-        "pt": "Ouros"
+        "pt": "Ouros",
+        "eo": "Karoo"
     }
 }
 
@@ -108,7 +148,6 @@ function fullName(text: { name: string, desc: string }, lang: string) {
 
     let name = ''
     let card = ''
-    //const plural = ['Pair', 'Two Pair', 'Three of a Kind', 'Four of a Kind', 'Five of a Kind']
 
     for (let item of Object.entries(names)) {
 
@@ -121,12 +160,10 @@ function fullName(text: { name: string, desc: string }, lang: string) {
 
     }
 
-
     const withSuits = text.desc.matchAll(/(A|K|Q|J|10|9|8|7|6|5|4|3|2)(s|d|c|h)/g)
     card = Array.from(withSuits, (match) => {
         return fullCard(match[1], match[2])
     }).join('')
-
 
     if (!card && 'High Card' !== text.name) {
 

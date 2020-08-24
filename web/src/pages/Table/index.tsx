@@ -23,6 +23,7 @@ const initialState = {
     inHand: [],
     toSwap: [],
     swaps: 0,
+    rarity: null,
     allowNew: true,
     allowSwap: false,
     allowStop: false
@@ -35,7 +36,7 @@ function Table() {
     const { hmCards, hmJokers, rmSuits, rmRanks, deck, lang, setOption } = useContext(TableContext)
 
     const [state, dispatch] = useReducer(tableReducer, initialState)
-    const { inHand, toSwap, swaps, handName, allowNew, allowSwap, allowStop } = state
+    const { inHand, toSwap, swaps, handName, rarity, allowNew, allowSwap, allowStop } = state
 
     const [room, setRoom] = useState('')
     const [logs, setLogs] = useState<ILogsItem[]>([])
@@ -152,7 +153,8 @@ function Table() {
                 dispatch({
                     type: "receiveNew", payload: {
                         hand: res.data.hand,
-                        handName: renderName(res.data.text, lang)
+                        handName: renderName(res.data.text, lang),
+                        rarity: res.data.text.rarity
                     }
                 })
             }, 888)
@@ -186,7 +188,8 @@ function Table() {
                     type: "receiveSwap", payload: {
                         swaps: swaps + 1,
                         hand: res.data.hand,
-                        handName: renderName(res.data.text, lang)
+                        handName: renderName(res.data.text, lang),
+                        rarity: res.data.text.rarity
                     }
                 })
             }, 888)
@@ -218,6 +221,7 @@ function Table() {
                 id: id,
                 name: handName,
                 hand: inHand,
+                rarity,
                 swap: swaps,
                 jokers: hmJokers !== 0 ? hmJokers : undefined,
                 suits: rmSuits.length !== 0 ? rmSuits : undefined,

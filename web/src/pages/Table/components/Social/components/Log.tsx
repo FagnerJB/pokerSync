@@ -37,7 +37,7 @@ const Log: React.FC<ILogProps> = (props) => {
                     {user.email ? <Gravatar email={user.email} name={user.name} size={16} /> : <i className="fas fa-info-circle"></i>}
                 </button> <strong>
                     {user.name}
-                </strong> fez <strong>{deal.name}</strong> &bull; <span className="time-log">{deal.time}</span>
+                </strong> fez <strong className={`rarity-${deal.rarity}`}>{deal.name}</strong> &bull; <span className="time-log">{deal.time}</span>
             </p>
             <div className="info-box">
                 <p>

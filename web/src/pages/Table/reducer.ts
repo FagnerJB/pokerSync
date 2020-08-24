@@ -2,9 +2,10 @@ export interface IStates {
     handName: string
     inHand: string[]
     toSwap: string[]
-    swaps: number,
-    allowNew: boolean,
-    allowSwap: boolean,
+    swaps: number
+    rarity: number | null
+    allowNew: boolean
+    allowSwap: boolean
     allowStop: boolean
 }
 
@@ -43,6 +44,7 @@ export function tableReducer(state: IStates, action: IAction) {
                 ...state,
                 inHand: action.payload.hand,
                 handName: action.payload.handName,
+                rarity: action.payload.rarity,
                 allowStop: true
             }
 
@@ -67,6 +69,7 @@ export function tableReducer(state: IStates, action: IAction) {
                 swaps: action.payload.swaps,
                 inHand: action.payload.hand,
                 handName: action.payload.handName,
+                rarity: action.payload.rarity,
                 allowStop: true
             }
 

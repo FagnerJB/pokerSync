@@ -9,6 +9,7 @@ export interface ILogsItem {
         id: string
         name: string
         hand: string[]
+        rarity: number
         swap: number
         suits?: string[]
         ranks?: string[]

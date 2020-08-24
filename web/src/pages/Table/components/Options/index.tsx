@@ -11,10 +11,10 @@ function Options() {
 
     const [badge, setBadge] = useState(0)
     const suitList = [
+        { key: "h", name: `Copas ${emoji.get("hearts")}` },
         { key: "s", name: `Espadas ${emoji.get("spades")}` },
         { key: "d", name: `Ouros ${emoji.get("diamonds")}` },
-        { key: "c", name: `Paus ${emoji.get("clubs")}` },
-        { key: "h", name: `Copas ${emoji.get("hearts")}` }
+        { key: "c", name: `Paus ${emoji.get("clubs")}` }
     ]
     const rankList = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"]
     const deckList = [
