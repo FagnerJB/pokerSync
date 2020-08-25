@@ -112,15 +112,10 @@
     padding: .4rem 0;
 }
 
-.socialPanel .logs .rarity-2{ color: #bbc2c7; }
-.socialPanel .logs .rarity-3{ color: var(--color-green) }
-.socialPanel .logs .rarity-4{ color: #31c061 }
-.socialPanel .logs .rarity-5{ color: #8BE9FD }
-.socialPanel .logs .rarity-6{ color: #679dee }
-.socialPanel .logs .rarity-7{ color: #BD93F9 }
-.socialPanel .logs .rarity-8{ color: #b06eee }
-.socialPanel .logs .rarity-9{ color: #f5b266 }
-.socialPanel .logs .rarity-10{ color: var(--color-orange)}
+.socialPanel .logs svg{
+    width: 22px;
+    height: 22px;
+}
 
 .socialPanel .copied .fa-check,
 .socialPanel .logs li:hover .info-box,

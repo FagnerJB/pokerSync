@@ -7,10 +7,13 @@ export interface ILogsItem {
     }
     deal: {
         id: string
-        name: string
-        hand: string[]
-        rarity: number
-        swap: number
+        hand: {
+            name: string
+            desc: string
+            rarity: number
+        }
+        swaps: number
+        inHand: string[]
         suits?: string[]
         ranks?: string[]
         jokers?: number

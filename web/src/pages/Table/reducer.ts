@@ -1,9 +1,13 @@
 export interface IStates {
-    handName: string
     inHand: string[]
     toSwap: string[]
+    head: string | null
+    hand: {
+        name: string | null
+        desc: string | null
+        rarity: number | null
+    }
     swaps: number
-    rarity: number | null
     allowNew: boolean
     allowSwap: boolean
     allowStop: boolean
@@ -31,9 +35,9 @@ export function tableReducer(state: IStates, action: IAction) {
         case 'requestNew':
             return {
                 ...state,
-                handName: 'Embaralhando...',
                 inHand: [],
                 toSwap: [],
+                head: 'Embaralhando...',
                 swaps: 0,
                 allowNew: false,
                 allowStop: false,
@@ -42,9 +46,9 @@ export function tableReducer(state: IStates, action: IAction) {
         case 'receiveNew':
             return {
                 ...state,
-                inHand: action.payload.hand,
-                handName: action.payload.handName,
-                rarity: action.payload.rarity,
+                inHand: action.payload.inHand,
+                head: null,
+                hand: action.payload.hand,
                 allowStop: true
             }
 
@@ -57,28 +61,28 @@ export function tableReducer(state: IStates, action: IAction) {
         case "requestSwap":
             return {
                 ...state,
-                toSwap: [],
                 inHand: [],
-                allowStop: false,
-                handName: 'Trocando...'
+                toSwap: [],
+                head: 'Trocando...',
+                allowStop: false
             }
 
         case "receiveSwap":
             return {
                 ...state,
+                inHand: action.payload.inHand,
+                head: null,
+                hand: action.payload.hand,
                 swaps: action.payload.swaps,
-                inHand: action.payload.hand,
-                handName: action.payload.handName,
-                rarity: action.payload.rarity,
                 allowStop: true
             }
 
         case "requestStop":
             return {
                 ...state,
+                toSwap: [],
                 allowNew: true,
-                allowStop: false,
-                toSwap: []
+                allowStop: false
             }
 
         default:

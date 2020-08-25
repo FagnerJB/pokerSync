@@ -6,7 +6,7 @@ interface ITableContext {
     rmSuits: string[],
     rmRanks: string[],
     deck: string,
-    lang: string,
+    lang: "en" | "pt" | "eo",
     toggle: string,
     setOption(key: string, value: string | number | string[]): void,
     setInitial(): void

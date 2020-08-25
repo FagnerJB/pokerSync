@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="120" version="1.1" viewBox="1.73 1.73 30.02 30.02" xmlns="http://www.w3.org/2000/svg">
+<metadata>
+<rdfRDF>
+<dcFormat>image/svg+xml</dcFormat>
+</rdfRDF>
+</metadata>
+<g fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="50">
+<g transform="translate(-.5216)">
+<circle cx="9.837" cy="10.215" r="3.5" stroke-width=".875"/>
+<rect x="6.3896" y="9.8599" width="20" height=".70944" fill-opacity=".9" stroke-width=".44861"/>
+<circle cx="22.956" cy="10.215" r="3.5" stroke-width=".875"/>
+</g>
+<circle cx="9.3154" cy="22.801" r="3.5" stroke-width=".875"/>
+<rect transform="rotate(90)" x="11.969" y="-9.626" width="10" height=".70944" fill-opacity=".9" stroke-width=".31721"/>
+<circle cx="22.435" cy="22.801" r="3.5" stroke-width=".875"/>
+<rect transform="rotate(90)" x="11.712" y="-22.662" width="10" height=".70944" fill-opacity=".9" stroke-width=".31721"/>
+</g>
+</svg>

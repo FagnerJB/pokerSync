@@ -5,9 +5,9 @@ import { useHistory } from "react-router-dom"
 import Card from '../../components/Card'
 import Options from './components/Options'
 import Social, { IUserState } from './components/Social'
-import { cardClasses, cardImage } from '../../utils/cardFunctions'
+import FullName from '../../components/FullName'
 
-import { renderName } from '../../localization'
+import { cardClasses, cardImage } from '../../utils/cardFunctions'
 import TableContext from '../../contexts/table'
 import { api, serverBaseURI, serverPathURI, ILogsItem } from '../../utils/services'
 import { tableReducer } from './reducer'
@@ -19,11 +19,15 @@ const socket = io(serverBaseURI, {
 })
 
 const initialState = {
-    handName: "Bem-vinde",
     inHand: [],
+    head: "Bem-vinde",
+    hand: {
+        name: null,
+        desc: null,
+        rarity: null
+    },
     toSwap: [],
     swaps: 0,
-    rarity: null,
     allowNew: true,
     allowSwap: false,
     allowStop: false
@@ -33,10 +37,10 @@ function Table() {
 
     const history = useHistory()
 
-    const { hmCards, hmJokers, rmSuits, rmRanks, deck, lang, setOption } = useContext(TableContext)
+    const { hmCards, hmJokers, rmSuits, rmRanks, deck, setOption } = useContext(TableContext)
 
     const [state, dispatch] = useReducer(tableReducer, initialState)
-    const { inHand, toSwap, swaps, handName, rarity, allowNew, allowSwap, allowStop } = state
+    const { inHand, toSwap, head, hand, swaps, allowNew, allowSwap, allowStop } = state
 
     const [room, setRoom] = useState('')
     const [logs, setLogs] = useState<ILogsItem[]>([])
@@ -152,9 +156,8 @@ function Table() {
             setTimeout(() => {
                 dispatch({
                     type: "receiveNew", payload: {
-                        hand: res.data.hand,
-                        handName: renderName(res.data.text, lang),
-                        rarity: res.data.text.rarity
+                        inHand: res.data.hand,
+                        hand: res.data.text
                     }
                 })
             }, 888)
@@ -187,11 +190,11 @@ function Table() {
                 dispatch({
                     type: "receiveSwap", payload: {
                         swaps: swaps + 1,
-                        hand: res.data.hand,
-                        handName: renderName(res.data.text, lang),
-                        rarity: res.data.text.rarity
+                        inHand: res.data.hand,
+                        hand: res.data.text
                     }
                 })
+
             }, 888)
 
         })
@@ -219,10 +222,9 @@ function Table() {
             },
             deal: {
                 id: id,
-                name: handName,
-                hand: inHand,
-                rarity,
-                swap: swaps,
+                hand,
+                swaps,
+                inHand,
                 jokers: hmJokers !== 0 ? hmJokers : undefined,
                 suits: rmSuits.length !== 0 ? rmSuits : undefined,
                 ranks: rmRanks.length !== 0 ? rmRanks : undefined
@@ -238,7 +240,7 @@ function Table() {
             <Options />
             <Social logs={logs} room={room} players={players} />
             <header className="hand-name">
-                <h2>{handName}</h2>
+                <h2>{head || <FullName hand={hand} />}</h2>
             </header>
             <div className="table">
                 {inHand.length > 0 ? inHand.map((face: string, i: number) => {
