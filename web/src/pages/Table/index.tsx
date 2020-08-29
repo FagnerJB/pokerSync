@@ -26,6 +26,7 @@ const initialState = {
         desc: null,
         rarity: null
     },
+    leftOnDeck: 52,
     toSwap: [],
     swaps: 0,
     allowNew: true,
@@ -40,7 +41,7 @@ function Table() {
     const { hmCards, hmJokers, rmSuits, rmRanks, deck, setOption } = useContext(TableContext)
 
     const [state, dispatch] = useReducer(tableReducer, initialState)
-    const { inHand, toSwap, head, hand, swaps, allowNew, allowSwap, allowStop } = state
+    const { inHand, toSwap, head, hand, leftOnDeck, swaps, allowNew, allowSwap, allowStop } = state
 
     const [room, setRoom] = useState('')
     const [logs, setLogs] = useState<ILogsItem[]>([])
@@ -104,7 +105,7 @@ function Table() {
 
     useEffect(() => {
 
-        if (swaps >= 3 || inHand.length === 0 || toSwap.length === 0)
+        if (swaps >= 3 || inHand.length === 0 || toSwap.length === 0 || (leftOnDeck - toSwap.length) <= 0)
             dispatch({ type: "canSwap", payload: false })
         else
             dispatch({ type: "canSwap", payload: true })
@@ -117,10 +118,17 @@ function Table() {
 
     useEffect(() => {
 
-        if (52 + (hmJokers - ((rmSuits.length * 13) + (rmRanks.length * (4 - rmSuits.length)))) < hmCards)
-            dispatch({ type: "canNew", payload: false })
-        else if (!allowStop)
-            dispatch({ type: "canNew", payload: true })
+        const onDeck = 52 + hmJokers - ((rmSuits.length * 13) + (rmRanks.length * (4 - rmSuits.length)))
+
+        if (onDeck < hmCards) {
+            dispatch({
+                type: "canNew", payload: false
+            })
+
+        } else if (!allowStop)
+            dispatch({
+                type: "canNew", payload: true
+            })
 
         // eslint-disable-next-line
     }, [hmJokers, rmSuits, rmRanks, hmCards])
@@ -142,7 +150,12 @@ function Table() {
 
         e.preventDefault()
 
-        dispatch({ type: "requestNew" })
+        dispatch({
+            type: "requestNew",
+            payload: {
+                onDeck: 52 + hmJokers - ((rmSuits.length * 13) + (rmRanks.length * (4 - rmSuits.length))) - hmCards
+            }
+        })
 
         api.post("/deal", {
             number: hmCards,
@@ -151,7 +164,7 @@ function Table() {
             ranks: rmRanks.join(",")
         }).then(res => {
 
-            localStorage.setItem('pokerSync_dealID', res.data.id)
+            sessionStorage.setItem('pokerSync_dealID', res.data.id)
 
             setTimeout(() => {
                 dispatch({
@@ -172,7 +185,7 @@ function Table() {
         e.preventDefault()
         if (!allowSwap) return
 
-        const id = localStorage.getItem('pokerSync_dealID')
+        const id = sessionStorage.getItem('pokerSync_dealID')
 
         if (!id) return
 
@@ -183,13 +196,14 @@ function Table() {
             swap: toSwap.join(",")
         }).then(res => {
 
-            localStorage.setItem('pokerSync_dealID', res.data.id)
+            sessionStorage.setItem('pokerSync_dealID', res.data.id)
 
             setTimeout(() => {
 
                 dispatch({
                     type: "receiveSwap", payload: {
                         swaps: swaps + 1,
+                        onDeck: leftOnDeck - toSwap.length,
                         inHand: res.data.hand,
                         hand: res.data.text
                     }
@@ -206,7 +220,7 @@ function Table() {
         if (e) e.preventDefault()
         if (!allowStop) return
 
-        const id = localStorage.getItem('pokerSync_dealID')
+        const id = sessionStorage.getItem('pokerSync_dealID')
         const localName = localStorage.getItem("pokerSync")
 
         if (!id || !localName || inHand.length === 0) return

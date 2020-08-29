@@ -7,6 +7,7 @@ export interface IStates {
         desc: string | null
         rarity: number | null
     }
+    leftOnDeck: number,
     swaps: number
     allowNew: boolean
     allowSwap: boolean
@@ -38,6 +39,7 @@ export function tableReducer(state: IStates, action: IAction) {
                 inHand: [],
                 toSwap: [],
                 head: 'Embaralhando...',
+                leftOnDeck: action.payload.onDeck,
                 swaps: 0,
                 allowNew: false,
                 allowStop: false,
@@ -73,6 +75,7 @@ export function tableReducer(state: IStates, action: IAction) {
                 inHand: action.payload.inHand,
                 head: null,
                 hand: action.payload.hand,
+                leftOnDeck: action.payload.onDeck,
                 swaps: action.payload.swaps,
                 allowStop: true
             }

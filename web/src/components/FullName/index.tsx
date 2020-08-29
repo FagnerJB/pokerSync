@@ -15,12 +15,13 @@ interface IFullNameProps {
 
 const FullName: React.FC<IFullNameProps> = (props) => {
 
+    const name = props.hand.desc === "Royal Flush" ? props.hand.desc : props.hand.name
     const { hand } = props
     const { lang } = useContext(TableContext)
 
     return (
-        <strong className={`rarity-${hand.rarity}`}>
-            <Icon name={hand.name} /><span>{renderName(hand, lang)}</span>
+        <strong className={`icon-name rarity-${hand.rarity}`} title={renderName(hand, lang)}>
+            <Icon name={name} /><span>{renderName(hand, lang)}</span>
         </strong>
     )
 }

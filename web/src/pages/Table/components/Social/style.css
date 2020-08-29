@@ -112,11 +112,6 @@
     padding: .4rem 0;
 }
 
-.socialPanel .logs svg{
-    width: 22px;
-    height: 22px;
-}
-
 .socialPanel .copied .fa-check,
 .socialPanel .logs li:hover .info-box,
 .socialPanel .logs li:focus-within .info-box{
@@ -127,6 +122,11 @@
 .socialPanel .logs li:focus-within p{
     overflow-x: auto!important;
     white-space: normal !important;
+}
+
+.socialPanel .logs li:hover .icon-name,
+.socialPanel .logs li:focus-within .icon-name{
+    display: inline;
 }
 
 .socialPanel .logs li:hover i.fa-info-circle,
@@ -140,10 +140,8 @@
 
 .socialPanel .logs p{
     width: calc( 16.9rem - .8rem * 2 - .3rem * 2 );
-    overflow-x: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    word-break: break-all;
 }
 
 .socialPanel .logs .info-box{

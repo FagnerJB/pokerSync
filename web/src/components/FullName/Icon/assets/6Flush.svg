@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="120" height="120" version="1.1" viewBox="1.73 1.73 30.02 30.02" xmlns="http://www.w3.org/2000/svg">
+<svg version="1.1" viewBox="5.9 15 20.1 6" xmlns="http://www.w3.org/2000/svg">
 <metadata>
 <rdfRDF>
 <dcFormat>image/svg+xml</dcFormat>
 </rdfRDF>
 </metadata>
-<path d="m25.916 18.02-10.095-2.0464-9.981 2.336-0.0069501-4.8683 20.083-0.009163z" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="50" stroke-width="1.1583"/>
+<path d="m 26 21 l -10.05 -3.5 l -10.05 3.5 l 0 -6 h 20.1 Z"/>
 </svg>

@@ -14,8 +14,6 @@ interface ILogProps {
 
 const Log: React.FC<ILogProps> = (props) => {
 
-    const lang = "pt"
-
     const { deal, user } = props.data
     const [copied, setCopied] = useState('')
 
@@ -34,12 +32,12 @@ const Log: React.FC<ILogProps> = (props) => {
 
     return (
         <>
-            <p title={`${user.name} fez ${deal.hand.name} - ${deal.time}`}>
+            <p>
                 <button type="button" className="info-button">
                     {user.email ? <Gravatar email={user.email} name={user.name} size={22} /> : <i className="fas fa-info-circle"></i>}
                 </button> <strong>
                     {user.name}
-                </strong> fez <FullName hand={deal.hand} lang={lang} /> &bull; <span className="time-log">{deal.time}</span>
+                </strong> fez <FullName hand={deal.hand} /> &bull; <span className="time-log">{deal.time}</span>
             </p>
             <div className="info-box">
                 <p>

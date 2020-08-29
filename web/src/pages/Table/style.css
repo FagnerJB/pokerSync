@@ -1,19 +1,14 @@
+.icon-name svg{
+    height: 1.1em;
+    width: auto;
+    margin-right: .25rem;
+    vertical-align: middle;
+}
+
 .hand-name{
     margin-bottom: .8rem;
     font-size: 1.25rem!important;
     text-align: center;
-}
-
-.hand-name strong{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.hand-name svg{
-    height: 2.5rem;
-    width: 2.5rem;
-    margin-right: .5rem;
 }
 
 .rarity-1 svg{ fill: var(--color-foreground) }

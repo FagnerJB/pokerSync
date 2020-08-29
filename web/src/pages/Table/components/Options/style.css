@@ -79,6 +79,11 @@
     margin: 0;
 }
 
+.optionsPanel .flag-png{
+    width: auto;
+    height: 22px;
+}
+
 .optionsPanel label i{
     font-size: 80%;
     margin-right: .2rem;

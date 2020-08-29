@@ -1,13 +1,14 @@
 const names = {
     "Five of a Kind": {
         "pt": "Quina",
-        "eo": "Kvinopo"
+        "eo": "Kvinopo",
     },
     "Royal Flush": {
-        "pt": "Sequência real",
+        "pt": null,
         "eo": "Reĝa emblemo",
     },
     "Straight Flush": {
+        "pt": null,
         "eo": "Sekvenco"
     },
     "Four of a Kind": {
@@ -15,9 +16,11 @@ const names = {
         "eo": "Kvaropo"
     },
     "Full House": {
+        "pt": null,
         "eo": "Plena domo"
     },
     "Flush": {
+        "pt": null,
         "eo": "Emblemo"
     },
     "Straight": {
@@ -44,54 +47,67 @@ const names = {
 
 const ranks = {
     "2": {
+        "en": "Two",
         "pt": "Dois",
         "eo": "Du"
     },
     "3": {
+        "en": "Three",
         "pt": "Três",
         "eo": "Tri",
     },
     "4": {
+        "en": "Four",
         "pt": "Quatro",
         "eo": "Kvar",
     },
     "5": {
+        "en": "Five",
         "pt": "Cinco",
         "eo": "Kvin"
     },
     "6": {
+        "en": "Six",
         "pt": "Seis",
         "eo": "Ses"
     },
     "7": {
+        "en": "Seven",
         "pt": "Sete",
         "eo": "Sep"
     },
     "8": {
+        "en": "Eight",
         "pt": "Oito",
         "eo": "Ok"
     },
     "9": {
+        "en": "Nine",
         "pt": "Nove",
         "eo": "Naŭ"
     },
     "10": {
+        "en": "Ten",
         "pt": "Dez",
         "eo": "Dek"
     },
     "J": {
+        "en": "Jack",
         "pt": "Valete",
         "eo": "Fanto"
     },
     "Q": {
+        "en": "Queen",
         "pt": "Dama",
         "eo": "Damo"
     },
     "K": {
+        "en": "King",
         "pt": "Rei",
         "eo": "Reĝo",
     },
     "A": {
+        "en": "Ace",
         "pt": "Ás",
         "eo": "Aso",
     }
@@ -99,41 +115,61 @@ const ranks = {
 
 const suits = {
     "s": {
+        "en": "Spades",
         "pt": "Espadas",
         "eo": "Piko"
     },
     "h": {
+        "en": "Hearts",
         "pt": "Copas",
         "eo": "Kero"
     },
     "c": {
+        "en": "Clubs",
         "pt": "Paus",
         "eo": "Trefo"
     },
     "d": {
+        "en": "Diamonds",
         "pt": "Ouros",
         "eo": "Karoo"
     }
 }
 
-function fullCard(rank: string, suit: string = "") {
+const words = {
+    "is": {
+        "pt": "é",
+        "en": "is",
+        "eo": "estas"
+    },
+    "and": {
+        "pt": "e",
+        "en": "and",
+        "eo": "kaj"
+    }
+}
+
+
+function fullCard(lang: "pt" | "eo" | "en", rank: string, suit: string = "") {
 
     let result = ""
 
     for (let item of Object.entries(ranks)) {
 
-        if (rank.includes(item[0]))
-            result += rank.replace(new RegExp(item[0], "g"), item[1].pt)
+        if (rank.includes(item[0]) && item[1][lang])
+            result += rank.replace(new RegExp(item[0], "g"), item[1][lang])
 
     }
 
     if (suit) {
 
+        const of_lang = lang === "en" ? "of" : "de"
+
         for (let item of Object.entries(suits)) {
 
-            if (suit.includes(item[0])) {
-                const suitName = suit.replace(new RegExp(item[0], "g"), item[1].pt)
-                result += ` de ${suitName}`
+            if (suit.includes(item[0]) && item[1][lang]) {
+                const suitName = suit.replace(new RegExp(item[0], "g"), item[1][lang])
+                result += ` ${of_lang} ${suitName}`
             }
 
         }
@@ -144,44 +180,50 @@ function fullCard(rank: string, suit: string = "") {
 }
 
 
-function fullName(text: { name: string, desc: string }, lang: string) {
+function fullName(text: { name: string, desc: string }, lang: "en" | "eo" | "pt") {
 
-    let name = ''
+    let name = text.name
     let card = ''
 
-    for (let item of Object.entries(names)) {
+    const of_lang = lang === "en" ? "of" : "de"
+    const is_lang = words["is"][lang]
+    const and_lang = words["and"][lang]
 
-        if (text.name.includes(item[0])) {
-            name = text.name.replace(item[0], item[1].pt)
-            break
-        } else {
-            name = text.name
+    if (lang !== "en") {
+
+        for (let item of Object.entries(names)) {
+
+            if (text.name.includes(item[0]) && item[1][lang]) {
+                name = text.name.replace(item[0], item[1][lang]!)
+                break
+            }
+
         }
 
     }
 
     const withSuits = text.desc.matchAll(/(A|K|Q|J|10|9|8|7|6|5|4|3|2)(s|d|c|h)/g)
     card = Array.from(withSuits, (match) => {
-        return fullCard(match[1], match[2])
+        return fullCard(lang, match[1], match[2])
     }).join('')
 
     if (!card && 'High Card' !== text.name) {
 
         const onlyRanks = text.desc.matchAll(/(A|K|Q|J|10|9|8|7|6|5|4|3|2)('s| High)/g)
         card = Array.from(onlyRanks, (match) => {
-            return fullCard(match[1])
-        }).join(' e ')
+            return fullCard(lang, match[1])
+        }).join(` ${and_lang} `)
 
     }
 
     if (!card) {
 
         card = text.desc.replace(/'s|High|Flush/g, "").trim()
-        return card === 'Royal' ? `${card} ${name}` : `${name} é ${fullCard(card)}`
+        return card === 'Royal' ? `${card} ${name}` : `${name} ${is_lang} ${fullCard(lang, card)}`
 
     }
 
-    return `${name} de ${card}`
+    return `${name} ${of_lang} ${card}`
 
 }
 

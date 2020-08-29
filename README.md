@@ -29,17 +29,16 @@ Disponível em [FagnerJB.com](https://fagnerjb.com/app/pokersync).
 
 ```
 cd web
-# npm ou yarn
-npm install
+npm install # ou yarn
 npm start
 cd ../server
-npm install
+npm install # ou yarn
 npm run dev
 ```
 
 ### Necessita banco Mongo
 
-Crie um arquivo em `server\src\database\credentials.ts`, com o conteúdo:
+Crie um arquivo em `server/src/database/credentials.ts`, com o conteúdo:
 ```
 const db = {
     user: '', # Usuário do banco

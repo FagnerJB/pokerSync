@@ -30,7 +30,7 @@ export const TableProvider: React.FC = ({ children }) => {
 
     const [toggle, setToggle] = useState("none")
 
-    const [lang, setLang] = useState("pt")
+    const [lang, setLang] = useState<"en" | "pt" | "eo">("pt")
     const [deck, setDeck] = useState("mini")
 
     const setOption = (key: string, value: string | number | string[]): void => {
@@ -48,7 +48,7 @@ export const TableProvider: React.FC = ({ children }) => {
                 setRanks(value as string[])
                 break;
             case 'lang':
-                setLang(value as string)
+                setLang(value as "en" | "pt" | "eo")
                 break;
             case 'deck':
                 setDeck(value as string)
