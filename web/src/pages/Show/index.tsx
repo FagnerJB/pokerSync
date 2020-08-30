@@ -1,18 +1,29 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 
 import Card from '../../components/Card'
-import { cardClasses, cardImage } from '../../utils/cardFunctions'
+import Text from '../../components/Text'
+import FullName from '../../components/FullName'
 
+import { cardClasses, cardImage } from '../../utils/cardFunctions'
 import { api } from '../../utils/services';
-import { renderName } from '../../localization'
+
+
+interface IHand {
+    name: string
+    desc: string
+    rarity: number
+}
 
 function Show(props: any) {
 
-    const id = props.match.params.id
+    const { id } = props.match.params
 
-    const [hand, setHand] = useState<string[]>([])
-    const [handName, setHandName] = useState("")
+    const history = useHistory()
+
+    const [hand, setHand] = useState<IHand>({} as IHand)
+    const [inHand, setInHand] = useState<string[]>([])
+    const [handName, setHandName] = useState("Loading...")
 
     useEffect(() => {
 
@@ -20,10 +31,19 @@ function Show(props: any) {
 
             api.get(`/deal/${id}`).then(res => {
 
-                setHand(res.data.hand)
-                setHandName(renderName(res.data.text, 'pt'))
+                setHand(res.data.text)
+                setInHand(res.data.hand)
+                setHandName("")
+
+            }).catch(res => {
+
+                setHandName("Not found")
 
             })
+
+        } else {
+
+            history.push(process.env.PUBLIC_URL)
 
         }
 
@@ -34,10 +54,10 @@ function Show(props: any) {
 
         <>
             <header className="hand-name">
-                <h2>{handName || "Carregando..."}</h2>
+                <h2>{<Text s={handName} /> || <FullName hand={hand} />}</h2>
             </header>
             <div className="table">
-                {hand.map((face, i) => {
+                {inHand.map((face, i) => {
 
                     return (
                         <div key={`card-${i}`} className={cardClasses("full")}>
@@ -49,7 +69,7 @@ function Show(props: any) {
             </div>
             {(window.location === window.parent.location) &&
                 <div className="backBtns">
-                    <Link to={process.env.PUBLIC_URL}>Voltar</Link>
+                    <Link to={process.env.PUBLIC_URL}><Text s="Back" /></Link>
                 </div>
             }
         </>

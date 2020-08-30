@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 
 import Icon from './Icon'
 
-import TableContext from '../../contexts/table'
+import GameContext from '../../contexts/game'
 import { renderName } from '../../localization'
 
 interface IFullNameProps {
@@ -17,7 +17,7 @@ const FullName: React.FC<IFullNameProps> = (props) => {
 
     const name = props.hand.desc === "Royal Flush" ? props.hand.desc : props.hand.name
     const { hand } = props
-    const { lang } = useContext(TableContext)
+    const { lang } = useContext(GameContext)
 
     return (
         <strong className={`icon-name rarity-${hand.rarity}`} title={renderName(hand, lang)}>

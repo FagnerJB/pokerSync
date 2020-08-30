@@ -1,5 +1,7 @@
-import React, { useState, useEffect, FormEvent } from 'react';
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect, FormEvent } from 'react'
+import { useHistory } from "react-router-dom"
+
+import Text from '../../components/Text'
 
 import './style.css'
 
@@ -13,6 +15,7 @@ function Enter() {
     useEffect(() => {
 
         const local = localStorage.getItem('pokerSync')
+
         if (local) {
             const localParsed = JSON.parse(local)
 
@@ -46,7 +49,7 @@ function Enter() {
         <div className="enter">
             <header>
                 <h1>PokerSync</h1>
-                <p className="subtitle">Sistema de "rolamento de dados" para <strong><a href="https://fagnerjb.com/logs/europair" target="_blank" rel="noopener noreferrer">Europair RPG</a></strong></p>
+                <p className="subtitle"><Text s="Dice rolling system for" /> <strong><a href="https://fagnerjb.com/logs/europair" target="_blank" rel="noopener noreferrer">Europair RPG</a></strong></p>
             </header>
             <form onSubmit={handleSubmit}>
                 <div>

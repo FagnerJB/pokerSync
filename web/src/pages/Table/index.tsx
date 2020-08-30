@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useReducer, FormEvent } from 'react'
 import io from 'socket.io-client'
-import { useHistory } from "react-router-dom"
+import { useHistory } from 'react-router-dom'
 
 import Card from '../../components/Card'
 import Options from './components/Options'
@@ -8,7 +8,7 @@ import Social, { IUserState } from './components/Social'
 import FullName from '../../components/FullName'
 
 import { cardClasses, cardImage } from '../../utils/cardFunctions'
-import TableContext from '../../contexts/table'
+import GameContext from '../../contexts/game'
 import { api, serverBaseURI, serverPathURI, ILogsItem } from '../../utils/services'
 import { tableReducer } from './reducer'
 
@@ -38,7 +38,7 @@ function Table() {
 
     const history = useHistory()
 
-    const { hmCards, hmJokers, rmSuits, rmRanks, deck, setOption } = useContext(TableContext)
+    const { hmCards, hmJokers, rmSuits, rmRanks, deck } = useContext(GameContext)
 
     const [state, dispatch] = useReducer(tableReducer, initialState)
     const { inHand, toSwap, head, hand, leftOnDeck, swaps, allowNew, allowSwap, allowStop } = state
@@ -58,11 +58,6 @@ function Table() {
         } else {
 
             const localUser = JSON.parse(localName)
-            const localDeck = localStorage.getItem("pokerSync_deck")
-            const localLang = localStorage.getItem("pokerSync_lang")
-
-            if (localDeck) setOption('deck', localDeck)
-            if (localLang) setOption('lang', localLang)
 
             socket.emit('setRoom', {
                 name: localUser.name,

@@ -5,7 +5,7 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import Gravatar from './components/Gravatar'
 import Log from './components/Log'
 
-import TableContext from '../../../../contexts/table'
+import GameContext from '../../../../contexts/game'
 import { ILogsItem } from '../../../../utils/services'
 
 import './style.css'
@@ -29,7 +29,7 @@ const Social: React.FC<ISocialProps> = (props) => {
     const [badge, setBadge] = useState(0)
     const [copied, setCopied] = useState(false)
 
-    const { toggle, setOption } = useContext(TableContext)
+    const { toggle, gameDispatch } = useContext(GameContext)
 
     useEffect(() => {
 
@@ -79,7 +79,7 @@ const Social: React.FC<ISocialProps> = (props) => {
         <div className={"socialPanel" + (toggle === "social" ? " opened" : "")}>
             <header>
                 <button type="button" className="closeBtn" data-badge={badge}
-                    onClick={() => setOption("toggle", toggle === "social" ? "none" : "social")}
+                    onClick={() => gameDispatch({ type: "toggle", payload: toggle === "social" ? "none" : "social" })}
                 ><i className="fas fa-user-friends"></i></button>
                 {user.email && <a href="https://gravatar.com/" target="_blank" rel="noopener noreferrer"><Gravatar email={user.email} name={user.name} size={72} /></a>}
                 <h4>{user.name}</h4>

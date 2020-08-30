@@ -22,6 +22,9 @@ routes.get('/deal/:id', async (req, res) => {
 
     } else {
 
+        res.status(404)
+        return res.json();
+
     }
 
 })
