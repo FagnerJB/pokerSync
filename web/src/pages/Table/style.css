@@ -1,7 +1,7 @@
 .icon-name svg{
-    height: 1.1em;
-    width: auto;
-    margin-right: .25rem;
+    width: 1.35em;
+    height: auto;
+    margin-right: .3em;
     vertical-align: middle;
 }
 
@@ -11,22 +11,22 @@
     text-align: center;
 }
 
-.rarity-1 svg{ fill: var(--color-foreground) }
-.rarity-2{ color: #bbc2c7; }
-.rarity-2 svg{ fill: #bbc2c7; }
-.rarity-3{ color: var(--color-green) }
-.rarity-3 svg{ fill: var(--color-green) }
-.rarity-4{ color: #31c061 }
-.rarity-4 svg{ fill: #31c061 }
-.rarity-5{ color: #8BE9FD }
+.rarity-1{color: #bbc2c7; }
+.rarity-1 svg{ fill: #bbc2c7; }
+.rarity-2 svg{ fill: var(--color-foreground) }
+.rarity-3{color: #31c061 }
+.rarity-3 svg{ fill: #31c061 }
+.rarity-4{color: var(--color-green) }
+.rarity-4 svg{ fill: var(--color-green) }
+.rarity-5{color: #8BE9FD }
 .rarity-5 svg{ fill: #8BE9FD }
-.rarity-6{ color: #679dee }
+.rarity-6{color: #679dee }
 .rarity-6 svg{ fill: #679dee }
-.rarity-7{ color: #BD93F9 }
-.rarity-7 svg{ fill: #BD93F9 }
-.rarity-8{ color: #b06eee }
-.rarity-8 svg{ fill: #b06eee }
-.rarity-9{ color: #f5b266 }
+.rarity-7{color: #b06eee }
+.rarity-7 svg{ fill: #b06eee }
+.rarity-8{color: #BD93F9 }
+.rarity-8 svg{ fill: #BD93F9 }
+.rarity-9{color: #f5b266 }
 .rarity-9 svg{ fill: #f5b266 }
 .rarity-10{ color: var(--color-orange)}
 .rarity-10 svg{fill: var(--color-orange)}

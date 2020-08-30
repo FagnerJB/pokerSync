@@ -7,10 +7,11 @@ function addZero(number: number) {
 
 function getHour(): string {
     const now = new Date()
-    const hour = addZero(now.getUTCHours() - 3)
-    const mins = addZero(now.getUTCMinutes())
+    const hour = now.getUTCHours() === 0 ? 24 : now.getUTCHours()
+    const h = addZero(hour - 3)
+    const m = addZero(now.getUTCMinutes())
 
-    return `${hour}:${mins}`
+    return `${h}:${m}`
 }
 
 export default getHour

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg version="1.1" viewBox="1.73 1.73 30.02 30.02" xmlns="http://www.w3.org/2000/svg">
+<svg version="1.1" viewBox="1.85 7.5 28 16" xmlns="http://www.w3.org/2000/svg">
 <metadata>
 <rdfRDF>
 <dcFormat>image/svg+xml</dcFormat>
 </rdfRDF>
 </metadata>
-<circle cx="5.375" cy="11" r="3.5"/>
-<circle cx="26.375" cy="11" r="3.5"/>
+<circle cx="5.35" cy="11" r="3.5"/>
 <circle cx="15.75" cy="11" r="3.5"/>
+<circle cx="26.35" cy="11" r="3.5"/>
 <circle cx="10" cy="20" r="3.5"/>
 <circle cx="22" cy="20" r="3.5"/>
-<rect x="5.75" y="10.705" width="20" height=".70944" fill-opacity=".9"/>
-<rect x="6.02" y="19.807" width="20" height=".70944" fill-opacity=".9"/>
+<rect x="5" y="10.5" width="20" height=".7" fill-opacity=".9"/>
+<rect x="13" y="19.5" width="10" height=".7" fill-opacity=".9"/>
 </svg>
