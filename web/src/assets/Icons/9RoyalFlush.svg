@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="120"
+   height="120"
+   viewBox="0 0 31.749999 31.750001"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   sodipodi:docname="9RoyalFlush.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     inkscape:guide-bbox="true"
+     showguides="true"
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="3.5355339"
+     inkscape:cx="69.287387"
+     inkscape:cy="28.919036"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1121"
+     inkscape:window-height="1008"
+     inkscape:window-x="783"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0">
+    <sodipodi:guide
+       id="guide1574"
+       orientation="0,-1"
+       position="14.836449,18.997089" />
+    <sodipodi:guide
+       id="guide1576"
+       orientation="0,-1"
+       position="13.546666,21.100521" />
+    <sodipodi:guide
+       id="guide1578"
+       orientation="1,0"
+       position="25.916338,10.55543" />
+    <sodipodi:guide
+       id="guide1584"
+       orientation="1,0"
+       position="5.833662,15.134165" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       transform="translate(0,1.3229182)"
+       id="g1582">
+      <path
+         id="path1554"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke-width:1.15833;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:50"
+         d="M 25.916338,19.871652 15.821572,17.825236 5.8406123,20.16125 5.8336622,15.292917 H 25.916338 Z"
+         sodipodi:nodetypes="cccccc" />
+      <path
+         sodipodi:nodetypes="ccccccc"
+         d="m 25.907888,13.521648 -10.094766,-2.046416 -9.9809593,2.336014 0.0063,-2.103433 9.9751363,-2.7648994 10.104238,2.7648994 z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke-width:1.15833;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:50"
+         id="path1572" />
+    </g>
+  </g>
+</svg>

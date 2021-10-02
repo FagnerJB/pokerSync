@@ -1,84 +1,95 @@
-import express from 'express'
+import express, { RequestHandler } from 'express'
 
 const routes = express.Router()
+
+const ObjectId = require('mongoose').Types.ObjectId
 
 import { getName, makeDeal, makeDraw } from './utils/Dealer'
 import Deals from './database/models/Deals'
 
-routes.get('/deal/:id', async (req, res) => {
+const validateId: RequestHandler = (req, res, next) => {
+   const { id } = req.params
 
-    const { id } = req.params
+   if (!ObjectId.isValid(id))
+      return res.status(400).json({ "error": "Invalid ID" })
 
-    const getID = await Deals.findById(id)
+   next()
+}
 
-    if (getID) {
+routes.get('/deal/:id', validateId, async (req, res) => {
 
-        const name = getName(getID.hand);
+   const { id } = req.params
 
-        return res.json({
-            hand: getID.hand,
-            text: name
-        });
+   const getID = await Deals.findById(id)
 
-    } else {
+   if (!getID)
+      return res.status(404).json({ "error": "Not found" })
 
-        res.status(404)
-        return res.json();
+   const name = getName(getID.hand)
 
-    }
+   return res.json({
+      hand: getID.hand,
+      text: name
+   })
 
 })
 
 routes.post('/deal', async (req, res) => {
 
-    const { number, jokers, suits, ranks } = req.body
+   const { number, jokers, suits, ranks } = req.body
 
-    const dealed = makeDeal(number, jokers, suits, ranks)
+   if (!number || !jokers || !suits || !ranks)
+      return res.status(400).json({ "error": "Missing params" })
 
-    const createID = await Deals.create({
-        deck: dealed.deck,
-        hand: dealed.hand
-    })
+   const dealed = makeDeal(number, jokers, suits, ranks)
 
-    return res.json({
-        id: createID._id,
-        hand: dealed.hand,
-        text: dealed.text
-    })
+   const createID = await Deals.create({
+      deck: dealed.deck,
+      hand: dealed.hand
+   })
+
+   return res.json({
+      id: createID._id,
+      hand: dealed.hand,
+      text: dealed.text
+   })
 
 })
 
-routes.post('/draw/:id', async (req, res) => {
+routes.post('/draw/:id', validateId, async (req, res) => {
 
-    const { id } = req.params
-    const { hand, swap } = req.body
+   const { id } = req.params
+   const { hand, swap } = req.body
 
-    const getID = await Deals.findById(id)
+   if (!hand || !swap)
+      return res.status(400).json({ "error": "Missing params" })
 
-    if (!getID)
-        return res.status(204)
+   const getID = await Deals.findById(id)
 
-    const drawed = makeDraw({
-        deck: getID.deck,
-        hand: getID.hand
-    },
-        hand.split(',').map((card: string) => card.trim()),
-        swap.split(',').map((card: string) => card.trim())
-    )
+   if (!getID)
+      return res.status(204).json({ "error": "Not found" })
 
-    if (drawed.deck.length === 0)
-        return res.status(204)
+   const drawed = makeDraw({
+      deck: getID.deck,
+      hand: getID.hand
+   },
+      hand.split(',').map((card: string) => card.trim()),
+      swap.split(',').map((card: string) => card.trim())
+   )
 
-    const createID = await Deals.create({
-        deck: drawed.deck,
-        hand: drawed.hand
-    })
+   if (drawed.deck.length === 0)
+      return res.status(204).json({ "error": "Deck runs out" })
 
-    return res.json({
-        id: createID._id,
-        hand: drawed.hand,
-        text: drawed.text
-    })
+   const createID = await Deals.create({
+      deck: drawed.deck,
+      hand: drawed.hand
+   })
+
+   return res.json({
+      id: createID._id,
+      hand: drawed.hand,
+      text: drawed.text
+   })
 
 })
 
