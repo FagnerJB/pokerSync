@@ -1,0 +1,47 @@
+name: CI
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Initiate Node
+        uses: actions/setup-node@v1
+        with:
+            node-version: 14
+      - name: Generate Web version
+        run: cd $GITHUB_WORKSPACE/web && npm i && npm run build
+
+      - name: Upload Web version
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.1
+        with:
+          username: ${{ secrets.FTP_USER }}
+          server: ${{ secrets.FTP_HOST }}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          local_path: ./web/build/*
+          remote_path: ${{ secrets.WEB_REMOTE_FOLDER }}
+          #args: # optional
+
+      - name: Set credentials Server version
+        run: touch $GITHUB_WORKSPACE/server/src/database/credentials.ts
+      - run: echo ${{ secrets.DB_CREDENTIALS }} > $GITHUB_WORKSPACE/server/src/database/credentials.ts
+
+      - name: Generate Server version
+        run: cd $GITHUB_WORKSPACE/server && npm i && npm run build
+
+      - name: Upload Server version
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.1
+        with:
+          username: ${{ secrets.FTP_USER }}
+          server: ${{ secrets.FTP_HOST }}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          local_path: ./server/dist/*
+          remote_path: ${{ secrets.SERVER_REMOTE_FOLDER }}
+          #args: # optional
