@@ -1,4 +1,4 @@
-name: CI
+name: Deploy new version
 on:
   push:
     branches: [ master ]
@@ -7,7 +7,7 @@ on:
 
   workflow_dispatch:
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -31,7 +31,7 @@ jobs:
 
       - name: Set credentials Server version
         run: touch $GITHUB_WORKSPACE/server/src/database/credentials.ts
-      - run: echo ${{ secrets.DB_CREDENTIALS }} > $GITHUB_WORKSPACE/server/src/database/credentials.ts
+      - run: echo "${{ secrets.DB_CREDENTIALS }}" > $GITHUB_WORKSPACE/server/src/database/credentials.ts
 
       - name: Generate Server version
         run: cd $GITHUB_WORKSPACE/server && npm i && npm run build
