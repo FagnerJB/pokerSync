@@ -1,70 +1,79 @@
-:root{
-    --color-background: #282A36;
-    --color-foreground: #F8F8F2;
-    --color-selection: #44475A;
-    --color-comment: #6272A4;
-    --color-red: #FF5555;
-    --color-green: #50FA7B;
-    --color-yellow: #F1FA8C;
-    --color-orange: #ffa23e;
-    --font-body: 'Nova Mono', Georgia, 'Times New Roman', Times, serif;
-    --font-title: 'Press Start 2P', Georgia, 'Times New Roman', Times, serif;
-    --width-card: 140px;
-    font-size: 60%;
+:root {
+   --color-background: #282a36;
+   --color-foreground: #f8f8f2;
+   --color-selection: #44475a;
+   --color-comment: #6272a4;
+   --color-red: #ff5555;
+   --color-green: #50fa7b;
+   --color-yellow: #f1fa8c;
+   --color-orange: #ffa23e;
+   --font-body: 'Nova Mono', Georgia, 'Times New Roman', Times, serif,
+      'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+      'Noto Color Emoji';
+   --font-title: 'Press Start 2P', Georgia, 'Times New Roman', Times, serif,
+      'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+      'Noto Color Emoji';
+   --width-card: 140px;
+   font-size: 60%;
 }
 
-::-webkit-scrollbar{
-    width:5px;
+::-webkit-scrollbar {
+   width: 5px;
 }
-::-webkit-scrollbar-track{
-    background:var(--color-selection)
+::-webkit-scrollbar-track {
+   background: var(--color-selection);
 }
-::-webkit-scrollbar-thumb{
-    background:var(--color-comment);
-    border-radius:5px
+::-webkit-scrollbar-thumb {
+   background: var(--color-comment);
+   border-radius: 5px;
 }
 
 *,
 *::after,
-*::before{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-
-html, body, #root{
-    min-height: 100vh;
+*::before {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
 }
 
-body,input,textarea{
-    font-family: var(--font-body)
+html,
+body,
+#root {
+   min-height: 100vh;
 }
 
-input,textarea{
-    font-size: inherit;
-    border: 0;
-    border-radius: 1px;
+body,
+input,
+textarea {
+   font-family: var(--font-body);
 }
 
-body{
-    color: var(--color-foreground);
-    background-color: var(--color-background);
+input,
+textarea {
+   font-size: inherit;
+   border: 0;
+   border-radius: 1px;
 }
 
-#root{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+body {
+   color: var(--color-foreground);
+   background-color: var(--color-background);
 }
 
-a{
-    text-decoration: none;
-    color: var(--color-orange);
+#root {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+
+a {
+   text-decoration: none;
+   color: var(--color-orange);
 }
 
 h1,
@@ -74,61 +83,60 @@ h4,
 h5,
 h6,
 button,
-.button{
-    font-family: var(--font-title)
+.button {
+   font-family: var(--font-title);
 }
 
 button,
-.button{
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-foreground);
-    background-color: var(--color-orange);
-    border: 0;
-    border-radius: .1rem;
-    padding: .8rem 1rem;
-    font-size: .8rem;
-    text-transform: uppercase;
-    margin: 0 .1rem;
+.button {
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   color: var(--color-foreground);
+   background-color: var(--color-orange);
+   border: 0;
+   border-radius: 0.1rem;
+   padding: 0.8rem 1rem;
+   font-size: 0.8rem;
+   text-transform: uppercase;
+   margin: 0 0.1rem;
 }
 
 button:not(:disabled),
-.button:not(:disabled){
-    cursor: pointer;
+.button:not(:disabled) {
+   cursor: pointer;
 }
 
 button i,
-.button i{
-    display: none;
-    margin-right: .3rem;
+.button i {
+   display: none;
+   margin-right: 0.3rem;
 }
 
 button:disabled,
-.button:disabled{
-    background-color: var(--color-selection);
+.button:disabled {
+   background-color: var(--color-selection);
 }
 
-.backBtns{
-    margin-top: 1rem;
+.backBtns {
+   margin-top: 1rem;
 }
 
-@media all and (min-width: 430px){
-
-    button i,
-    .button i{
-        display: inline-block;
-    }
+@media all and (min-width: 430px) {
+   button i,
+   .button i {
+      display: inline-block;
+   }
 }
 
-@media all and (min-width: 700px){
-    :root{
-        font-size: 100%;
-    }
+@media all and (min-width: 700px) {
+   :root {
+      font-size: 100%;
+   }
 }
 
-@media all and (min-width: 1360px){
-    :root{
-        font-size: 120%;
-    }
+@media all and (min-width: 1360px) {
+   :root {
+      font-size: 120%;
+   }
 }

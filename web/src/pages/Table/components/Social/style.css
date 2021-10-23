@@ -1,175 +1,179 @@
-.socialPanel{
-    position: fixed;
-    top: 0;
-    right: -16.9rem;
-    display: grid;
-    grid-template: "header" 4.2rem "players" 25px "logs" 1fr / 1fr;
-    height: 100vh;
-    width: 100%;
-    max-width: 16.9rem;
-    padding: 1rem .8rem;
-    background-color: var(--color-selection);
-    transition: .5s;
-    box-shadow: -.01rem 0 .5rem rgba(0,0,0,.5);
-    z-index: 99;
+.socialPanel {
+   position: fixed;
+   top: 0;
+   right: -16.9rem;
+   display: grid;
+   grid-template: 'header' 4.2rem 'players' 25px 'logs' 1fr / 1fr;
+   height: 100vh;
+   width: 100%;
+   max-width: 16.9rem;
+   padding: 1rem 0.8rem;
+   background-color: var(--color-selection);
+   transition: 0.5s;
+   box-shadow: -0.01rem 0 0.5rem rgba(0, 0, 0, 0.5);
+   z-index: 99;
 }
 
-.socialPanel.opened{
-    right: 0;
+.socialPanel.opened {
+   right: 0;
 }
 
-.socialPanel .closeBtn{
-    position: fixed;
-    top: 4rem;
-    right: 0rem;
-    transition: .5s;
+.socialPanel .closeBtn {
+   position: fixed;
+   top: 4rem;
+   right: 0rem;
+   transition: 0.5s;
 }
 
-.socialPanel .closeBtn:not([data-badge="0"])::after{
-    content: attr(data-badge);
-    position: absolute;
-    top: -.1rem;
-    left: -.1rem;
-    background-color: var(--color-yellow);
-    padding: .0 .35rem;
-    border-radius: 50%;
-    font-family: var(--font-body);
-    font-weight: bold;
-    color: var(--color-background);
+.socialPanel .closeBtn:not([data-badge='0'])::after {
+   content: attr(data-badge);
+   position: absolute;
+   top: -0.1rem;
+   left: -0.1rem;
+   background-color: var(--color-yellow);
+   padding: 0 0.35rem;
+   border-radius: 50%;
+   font-family: var(--font-body);
+   font-weight: bold;
+   color: var(--color-background);
 }
 
-.socialPanel.opened .closeBtn{
-    right: 16.8rem;
+.socialPanel.opened .closeBtn {
+   right: 16.8rem;
 }
 
-.socialPanel header{
-    grid-area: header;
-    border-bottom: 1px solid var(--color-comment);
+.socialPanel header {
+   grid-area: header;
+   border-bottom: 1px solid var(--color-comment);
 }
 
-.socialPanel header .gravatar{
-    float: right;
+.socialPanel header .gravatar {
+   float: right;
 }
 
-.socialPanel .backBtn{
-    font-size: 88%;
+.socialPanel .backBtn {
+   font-size: 88%;
 }
 
-.socialPanel .players{
-    grid-area: players;
+.socialPanel .players {
+   grid-area: players;
 }
 
-.socialPanel .players li{
-    display: inline-block;
-    list-style: none;
-    margin: 2px 2px 2px 0;
+.socialPanel .players li {
+   display: inline-block;
+   list-style: none;
+   margin: 2px 2px 2px 0;
 }
 
 .socialPanel .logs *,
 .socialPanel .roomNum,
-.socialPanel .roomNum *{
-    -webkit-user-select: text!important;
-    -moz-user-select: text!important;
-    -ms-user-select: text!important;
-    user-select: text!important;
+.socialPanel .roomNum * {
+   -webkit-user-select: text !important;
+   -moz-user-select: text !important;
+   -ms-user-select: text !important;
+   user-select: text !important;
 }
 
-.socialPanel .roomNum{
-    cursor: pointer;
+.socialPanel .roomNum {
+   cursor: pointer;
 }
 
 .socialPanel *:not(.copied).roomNum .fa-check,
 .socialPanel .copied .fa-copy,
 .socialPanel .copied .fa-share-square,
-.socialPanel .copyLink .fa-check{
-    display: none;
+.socialPanel .copyLink .fa-check {
+   display: none;
 }
 
-.socialPanel .copied{
-    color: var(--color-green);
+.socialPanel .copied {
+   color: var(--color-green);
 }
 
-.socialPanel .copyLink{
-    float: right;
+.socialPanel .copyLink {
+   float: right;
 }
 
-.socialPanel .logs{
-    grid-area: logs;
-    font-size: 0.8rem;
-    padding-top: .2rem;
-    overflow-y: auto;
-    display: flex;
-    flex-flow: row wrap;
-    align-items: flex-end;
+.socialPanel .logs {
+   grid-area: logs;
+   font-size: 0.8rem;
+   padding-top: 0.2rem;
+   overflow-y: auto;
+   display: flex;
+   flex-flow: row wrap;
+   align-items: flex-end;
 }
 
-.socialPanel .logs ul{
-    overflow-x: hidden;
-    list-style: none;
+.socialPanel .logs ul {
+   overflow-x: hidden;
+   list-style: none;
 }
 
-.socialPanel .logs li{
-    padding: .4rem 0;
+.socialPanel .logs li {
+   padding: 0.4rem 0;
 }
 
 .socialPanel .copied .fa-check,
 .socialPanel .logs li:hover .info-box,
-.socialPanel .logs li:focus-within .info-box{
-    display: block!important;
+.socialPanel .logs li:focus-within .info-box {
+   display: block !important;
 }
 
 .socialPanel .logs li:hover p,
-.socialPanel .logs li:focus-within p{
-    overflow-x: auto!important;
-    white-space: normal !important;
+.socialPanel .logs li:focus-within p {
+   overflow-x: auto !important;
+   white-space: normal !important;
 }
 
 .socialPanel .logs li:hover .icon-name,
-.socialPanel .logs li:focus-within .icon-name{
-    display: inline;
+.socialPanel .logs li:focus-within .icon-name {
+   display: inline;
 }
 
 .socialPanel .logs li:hover i.fa-info-circle,
-.socialPanel .logs li:focus-within i.fa-info-circle{
-    color: var(--color-orange)
+.socialPanel .logs li:focus-within i.fa-info-circle {
+   color: var(--color-orange);
 }
 
-.socialPanel .logs li:not(:last-child){
-    border-bottom: 1px solid rgba(248, 248, 242, .5);
+.socialPanel .logs li:not(:last-child) {
+   border-bottom: 1px solid rgba(248, 248, 242, 0.5);
 }
 
-.socialPanel .logs p{
-    width: calc( 16.9rem - .8rem * 2 - .3rem * 2 );
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.socialPanel .logs p {
+   width: calc(16.9rem - 0.8rem * 2 - 0.3rem * 2);
+   text-overflow: ellipsis;
+   white-space: nowrap;
 }
 
-.socialPanel .logs .info-box{
-    margin-top: .2rem;
-    padding: .2rem .3rem;
-    background-color: #5b5f79;
-    border-radius: .15rem;
+.socialPanel .logs .info-box {
+   margin-top: 0.2rem;
+   padding: 0.2rem 0.3rem;
+   background-color: #5b5f79;
+   border-radius: 0.15rem;
 }
 
-.socialPanel .logs li:not(:last-child) .info-box{
-    display: none;
+.socialPanel .logs li:not(:last-child) .info-box {
+   display: none;
 }
 
-.socialPanel h4{
-    margin-bottom: .3rem;
+.socialPanel h4 {
+   display: -webkit-box;
+   margin-bottom: 0.3rem;
+   -webkit-box-orient: vertical;
+   -webkit-line-clamp: 1;
+   overflow: hidden;
 }
 
-.socialPanel .info-button{
-    background-color: transparent;
-    margin: 0;
-    padding: 0;
+.socialPanel .info-button {
+   background-color: transparent;
+   margin: 0;
+   padding: 0;
 }
 
-@media all and (min-width: 1250px){
-    .socialPanel{
-        right: 0;
-    }
-    .socialPanel .closeBtn{
-        display: none;
-    }
+@media all and (min-width: 1250px) {
+   .socialPanel {
+      right: 0;
+   }
+   .socialPanel .closeBtn {
+      display: none;
+   }
 }

@@ -11,24 +11,25 @@ const server = http.createServer(app)
 const io = require('socket.io')(server)
 const port = process.env.PORT || 6102
 
-app.use((req, res, next) => {
+app.use((_req, res, next) => {
 
    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
 
-   if (!process.env) {
-      res.header("Access-Control-Allow-Origin", "https://fagnerjb.com")
-      res.header("Cross-Origin-Resource-Policy", "same-site")
-   } else {
+   if (process.env) {
       res.header("Access-Control-Allow-Origin", "*")
       res.header("Cross-Origin-Resource-Policy", "*")
+   } else {
+      res.header("Access-Control-Allow-Origin", "https://fagnerjb.com")
+      res.header("Cross-Origin-Resource-Policy", "same-site")
    }
+
    app.use(cors())
    next()
 })
 
 app.use(express.json())
 
-app.use((req, res, next) => {
+app.use((req, _res, next) => {
    const { method, url } = req
 
    console.log(`[${method.toUpperCase()}] ${url}`)
@@ -91,7 +92,6 @@ io.on('connection', (socket: any) => {
       })
 
    })
-
 
 })
 

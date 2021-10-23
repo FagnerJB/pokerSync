@@ -38,8 +38,13 @@ routes.post('/deal', async (req, res) => {
 
    const { number, jokers, suits, ranks } = req.body
 
-   if (!number || !jokers || !suits || !ranks)
-      return res.status(400).json({ "error": "Missing params" })
+   if (
+      typeof number === 'undefined'||
+      typeof jokers === 'undefined'||
+      typeof suits === 'undefined'||
+      typeof ranks === 'undefined'
+   )
+      return res.status(400).json({ error: "Missing params" })
 
    const dealed = makeDeal(number, jokers, suits, ranks)
 
@@ -61,13 +66,16 @@ routes.post('/draw/:id', validateId, async (req, res) => {
    const { id } = req.params
    const { hand, swap } = req.body
 
-   if (!hand || !swap)
-      return res.status(400).json({ "error": "Missing params" })
+   if (
+      typeof hand === 'undefined'||
+      typeof swap === 'undefined'
+   )
+      return res.status(400).json({ error: "Missing params" })
 
    const getID = await Deals.findById(id)
 
    if (!getID)
-      return res.status(204).json({ "error": "Not found" })
+      return res.status(204).json({ error: "Not found" })
 
    const drawed = makeDraw({
       deck: getID.deck,
@@ -78,7 +86,7 @@ routes.post('/draw/:id', validateId, async (req, res) => {
    )
 
    if (drawed.deck.length === 0)
-      return res.status(204).json({ "error": "Deck runs out" })
+      return res.status(204).json({ error: "Deck runs out" })
 
    const createID = await Deals.create({
       deck: drawed.deck,
